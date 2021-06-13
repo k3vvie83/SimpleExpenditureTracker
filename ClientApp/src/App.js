@@ -5,11 +5,11 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import { Layout } from './components/Layout';
 
-import { Home } from './components/Commom/Home';
-import { SignIn } from './components/Commom/SignIn';
-import { SignOut } from './components/Commom/SignOut';
-import { About } from './components/Commom/About';
-import { ChangePassword } from "./components/Commom/ChangePassword";
+import { Home } from './components/Common/Home';
+import { SignIn } from './components/Common/SignIn';
+import { SignOut } from './components/Common/SignOut';
+import { About } from './components/Common/About';
+import { ChangePassword } from "./components/Common/ChangePassword";
 
 import { EnterExpenditure } from "./components/User/EnterExpenditure";
 import { QueryExpenditure } from "./components/User/QueryExpenditure";
