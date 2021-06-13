@@ -1,22 +1,50 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
 import { Route } from 'react-router';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+
 import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
-import { Counter } from './components/Counter';
+
+import { Home } from './components/Commom/Home';
+import { SignIn } from './components/Commom/SignIn';
+import { SignOut } from './components/Commom/SignOut';
+import { About } from './components/Commom/About';
+import { ChangePassword } from "./components/Commom/ChangePassword";
+
+import { EnterExpenditure } from "./components/User/EnterExpenditure";
+import { QueryExpenditure } from "./components/User/QueryExpenditure";
+
+import { AddUser } from "./components/Admin/AddUser";
+import { DeleteUser } from "./components/Admin/DeleteUser";
+
+import { Unauthorised } from "./components/Error/Unauthorised";
+import { PageNotFound } from "./components/Error/PageNotFound";
 
 import './custom.css'
 
-export default class App extends Component {
-  static displayName = App.name;
+export default function App(props) {
 
-  render () {
+    useEffect(() => {
+    }, []);
+
     return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} />
-      </Layout>
+        <Router>
+            <Layout>
+                <Switch>
+                    <Route exact path='/' component={SignIn} />
+                    <Route path='/about' component={About} />
+                    <Route path='/home' component={Home} />
+                    <Route path='/enterexpenditure' component={EnterExpenditure} />
+                    <Route path='/queryexpenditure' component={QueryExpenditure} />
+                    <Route path='/changepassword' component={ChangePassword} />
+                    <Route path='/adduser' component={AddUser} />
+                    <Route path='/deleteuser' component={DeleteUser} />
+                    <Route path='/signout' component={SignOut} />
+                    <Route path='/unauthorised' component={Unauthorised} />
+                    <Route component={PageNotFound} />
+                </Switch>
+            </Layout>
+        </Router>
     );
-  }
+
 }
