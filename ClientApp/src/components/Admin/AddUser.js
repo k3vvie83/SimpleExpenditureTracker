@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Redirect } from 'react-router';
 import { sha256 } from 'js-sha256';
+import axios from 'axios';
 
 export function AddUser(props) {
 
@@ -19,7 +19,6 @@ export function AddUser(props) {
 
 
     useEffect(() => {
-
     }, []);
 
     if (!window.sessionStorage.getItem("isAuthenticated")) {
@@ -30,7 +29,6 @@ export function AddUser(props) {
         return <Redirect to='/unauthorised' />
     }
 
-   
     const mySubmitHandler = (event) => {
 
         event.preventDefault();
@@ -53,15 +51,10 @@ export function AddUser(props) {
         var HashedPassword = sha256(Password);
 
         const NewUserInfo = { UserFullName, UserLoginID, HashedPassword, Role };
-        
+
         axios.post('/api/adduser', NewUserInfo).then(response => {
 
-
-            console.log("AddUser >>  Response Status : " + response.status + "Response Data : " + response.data);
-
-
             if (response.status === 200) {
-
 
                 setNotificationSelection(2);
 
@@ -84,7 +77,6 @@ export function AddUser(props) {
 
                 setNotificationSelection(1);
             }));
-            
 
     }
 
@@ -116,7 +108,6 @@ export function AddUser(props) {
             case 5: return (<div className='error'><a> Password less than 8 characters! </a></div>);
                 break;
 
-
             default: return (null);
         }
     }
@@ -130,7 +121,6 @@ export function AddUser(props) {
 
             <br />
 
-   
             <form onSubmit={mySubmitHandler}>
                 <h3>Enter New User Information</h3>
                 <br />
@@ -158,11 +148,11 @@ export function AddUser(props) {
                 <div className="form-group">
                     <label>Select Role </label>
                     <br />
-                    <label><input type="radio" value="User" name="role" onChange={e => setRole(e.target.value)}  defaultChecked /> User </label>
+                    <label><input type="radio" value="User" name="role" onChange={e => setRole(e.target.value)} defaultChecked /> User </label>
 
                         &nbsp;&nbsp;&nbsp;
 
-                    <label><input type="radio" value="Admin" name="role" onChange={e => setRole(e.target.value)}  /> Admin </label>
+                    <label><input type="radio" value="Admin" name="role" onChange={e => setRole(e.target.value)} /> Admin </label>
                 </div>
                 <div>
                     <button type="submit" className="btn btn-primary btn-block">Submit</button>

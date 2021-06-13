@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Redirect } from 'react-router';
+import axios from 'axios';
 
 export function DeleteUser(props) {
 
@@ -9,12 +9,9 @@ export function DeleteUser(props) {
     const [AllUsersList, setAllUsersList] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    //const [CurrentUserUUID, SetCurrentUserUUID] = useState('');
     const [UserUUID, SetUserUUID] = useState('');
 
     const [notificationSelection, setNotificationSelection] = useState(0);
-    const [refresh, setrefresh] = useState(0);
-    //SetCurrentUserUUID(window.sessionStorage.getItem("UserUUID"));
 
     useEffect(() => {
         GetAllUser();
@@ -27,20 +24,6 @@ export function DeleteUser(props) {
     if (window.sessionStorage.getItem("Role").toString() != "Admin") {
         return <Redirect to='/unauthorised' />
     }
-
-
-
-
-    function DisplayUUIDSelected() {
-
-        //setNotificationSelection(0);
-
-        return (
-            <div>
-                <p>UUID Selected for deletion : {UserUUID}</p>
-            </div>);
-    }
-
 
     const mySubmitHandler = (event) => {
 
@@ -60,16 +43,11 @@ export function DeleteUser(props) {
 
         axios.post('/api/deleteuser', UserUUIDObj).then(response => {
 
-            console.log("deleteuser response.status : " + response.status);
-            console.log("deleteuser response.data  : " + response.data);
-
             setNotificationSelection(1);
 
             setLoading(true);
 
             GetAllUser();
-
-
         });
 
 
@@ -103,13 +81,9 @@ export function DeleteUser(props) {
 
         axios.post('/api/getallusers', UserUUIDObj).then(response => {
 
-            console.log("response.status : " + response.status);
-            console.log("response.data  : " + response.data);
-
             setAllUsersList(response.data);
 
             setLoading(false);
-
         });
     }
 
@@ -126,7 +100,6 @@ export function DeleteUser(props) {
                         <thead>
                             <tr>
                                 <th> </th>
-                                {/*<th>User UUID</th>*/}
                                 <th>User Full Name</th>
                                 <th>User Login ID</th>
                                 <th>Role</th>
@@ -136,7 +109,6 @@ export function DeleteUser(props) {
                             {AllUsersList.map(AllUsersList =>
                                 <tr key={AllUsersList.UserUUID}>
                                     <td><input type="radio" value={AllUsersList.UserUUID} name="DelUser" onChange={e => SetUserUUID(e.target.value)} /></td>
-                                    {/*<td>{AllUsersList.UserUUID}</td>*/}
                                     <td>{AllUsersList.UserFullName}</td>
                                     <td>{AllUsersList.UserLoginID}</td>
                                     <td>{AllUsersList.Role}</td>
@@ -160,10 +132,8 @@ export function DeleteUser(props) {
 
     return (
         <div>
-            {/*<DisplayUUIDSelected />*/}
             <DisplayStatus />
             {contents}
-
         </div>
 
     )
