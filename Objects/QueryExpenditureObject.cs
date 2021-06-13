@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace A_Simple_Web_App.Objects
+namespace SimpleExpenditureTracker.Objects
 {
     public class QueryExpenditureObject
     {

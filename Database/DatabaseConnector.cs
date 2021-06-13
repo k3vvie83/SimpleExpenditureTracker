@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using A_Simple_Web_App.Objects;
 
-namespace A_Simple_Web_App.Database
+namespace SimpleExpenditureTracker.Database
 {
     public sealed class DatabaseConnector
     {
@@ -365,46 +365,6 @@ namespace A_Simple_Web_App.Database
             return DBReturnResult.SUCCESS;
         }
 
-        //public DBReturnResult UpdateExpenditureRecord(CreateExpenditureObject eo)
-        //{
-
-        //    try
-        //    {
-        //        cmd.CommandText = "UPDATE `SimpleDatabase`.`Expenditure` SET `DateOfExpenditure` = '" + eo.DateOfExpenditure + " ', `Description` = '" + eo.Description + " ', `AmountSpent` = '" + eo.AmountSpent + " ', `Remarks` = '" + eo.Remarks + " ' WHERE(`UUID` = '" + eo.ExpensesUUID + " ');";
-
-        //        cmd.Prepare();
-
-        //        cmd.ExecuteNonQuery();
-
-        //    }
-        //    catch (MySql.Data.MySqlClient.MySqlException ex)
-        //    {
-        //        Console.WriteLine(ex.ToString());
-        //        return DBReturnResult.NOT_SUCCESS;
-        //    }
-
-        //    return DBReturnResult.SUCCESS;
-        //}
-
-        //public DBReturnResult DeleteExpenditureRecord(string uuidOfExpenseRecord)
-        //{
-        //    try
-        //    {
-        //        cmd.CommandText = "DELETE FROM `SimpleDatabase`.`Expenditure` WHERE(`ExpenditureUUID` = '" + uuidOfExpenseRecord + "');";
-        //        cmd.Prepare();
-
-        //        cmd.ExecuteNonQuery();
-
-        //    }
-        //    catch (MySqlException ex)
-        //    {
-        //        Console.WriteLine(ex.ToString());
-        //        return DBReturnResult.NOT_SUCCESS;
-        //    }
-
-        //    return DBReturnResult.SUCCESS;
-        //}
-
         public DBReturnResult QueryExpenditureRecord(string UserUUID, ref List<QueryExpenditureObject> listOfQEO)
         {
 
@@ -504,5 +464,45 @@ namespace A_Simple_Web_App.Database
             return DBReturnResult.SUCCESS;
         }
     }
+
+    //public DBReturnResult UpdateExpenditureRecord(CreateExpenditureObject eo)
+    //{
+
+    //    try
+    //    {
+    //        cmd.CommandText = "UPDATE `SimpleDatabase`.`Expenditure` SET `DateOfExpenditure` = '" + eo.DateOfExpenditure + " ', `Description` = '" + eo.Description + " ', `AmountSpent` = '" + eo.AmountSpent + " ', `Remarks` = '" + eo.Remarks + " ' WHERE(`UUID` = '" + eo.ExpensesUUID + " ');";
+
+    //        cmd.Prepare();
+
+    //        cmd.ExecuteNonQuery();
+
+    //    }
+    //    catch (MySql.Data.MySqlClient.MySqlException ex)
+    //    {
+    //        Console.WriteLine(ex.ToString());
+    //        return DBReturnResult.NOT_SUCCESS;
+    //    }
+
+    //    return DBReturnResult.SUCCESS;
+    //}
+
+    //public DBReturnResult DeleteExpenditureRecord(string uuidOfExpenseRecord)
+    //{
+    //    try
+    //    {
+    //        cmd.CommandText = "DELETE FROM `SimpleDatabase`.`Expenditure` WHERE(`ExpenditureUUID` = '" + uuidOfExpenseRecord + "');";
+    //        cmd.Prepare();
+
+    //        cmd.ExecuteNonQuery();
+
+    //    }
+    //    catch (MySqlException ex)
+    //    {
+    //        Console.WriteLine(ex.ToString());
+    //        return DBReturnResult.NOT_SUCCESS;
+    //    }
+
+    //    return DBReturnResult.SUCCESS;
+    //}
 
 }

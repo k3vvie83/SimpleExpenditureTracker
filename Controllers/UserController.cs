@@ -1,12 +1,11 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using A_Simple_Web_App.Database;
-using A_Simple_Web_App.Objects;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
+using SimpleExpenditureTracker.Database;
+using SimpleExpenditureTracker.Objects;
 
-namespace A_Simple_Web_App.Controllers
+namespace SimpleExpenditureTracker.Controllers
 {
     [ApiController]
     [Route("api/signin")]

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace A_Simple_Web_App.Objects
+namespace SimpleExpenditureTracker.Objects
 {
     public class ChangePasswordObject
     {

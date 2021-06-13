@@ -1,16 +1,15 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 
-namespace A_Simple_Web_App.CommonTools
+namespace SimpleExpenditureTracker.CommonTools
 {
     public sealed class CommonTools
     {
         private static CommonTools instance;
-
         private static readonly object padlock = new object();
 
         private CommonTools()
         {
-
         }
 
         ~CommonTools()
@@ -40,12 +39,11 @@ namespace A_Simple_Web_App.CommonTools
             {
                 return JsonSerializer.Serialize(obj);
             }
-            catch
+            catch (Exception ex)
             {
-
+                Console.WriteLine(ex.ToString());
             }
             return null;
         }
     }
-
 }

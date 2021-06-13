@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using A_Simple_Web_App.Database;
-using System.Text.Json;
-using A_Simple_Web_App.Objects;
+using SimpleExpenditureTracker.Database;
+using SimpleExpenditureTracker.Objects;
 
 namespace A_Simple_Web_App.Controllers
 {
