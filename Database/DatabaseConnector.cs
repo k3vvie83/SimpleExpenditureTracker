@@ -19,7 +19,6 @@ namespace SimpleExpenditureTracker.Database
         private static MySqlCommand cmd;
         private static MySqlConnection conn;
 
-
         private static readonly object padlock = new object();
 
         private DatabaseConnector()

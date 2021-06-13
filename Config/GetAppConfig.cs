@@ -33,6 +33,7 @@ namespace SimpleExpenditureTracker.Config
                     if (instance == null)
                     {
                         instance = new GetAppConfig();
+                        instance.getConfig();
                     }
 
                     return instance;

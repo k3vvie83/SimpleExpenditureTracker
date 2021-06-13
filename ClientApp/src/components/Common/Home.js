@@ -78,7 +78,7 @@ export function Home(props) {
                 <div>
                     <h1>Hello, {window.sessionStorage.getItem("UserFullName")}!</h1>
                     <br />
-                    <h2>   You are logged in as Admin!</h2>
+                    <h2>   You are logged in as User!</h2>
 
                     <p>Welcome to your expenditure tracking application.</p>
 
