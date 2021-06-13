@@ -103,9 +103,6 @@ namespace SimpleExpenditureTracker.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CreateUpdateUserObject obj)
         {
-
-            bool success = false;
-
             DatabaseConnector.DBReturnResult returnResult = DatabaseConnector.Instance.AddUser(obj);
 
             Console.WriteLine("Returned returnResult = " + returnResult);

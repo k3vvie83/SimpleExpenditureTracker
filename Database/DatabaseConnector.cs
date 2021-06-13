@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using SimpleExpenditureTracker.Objects;
+using SimpleExpenditureTracker.Config;
 
 namespace SimpleExpenditureTracker.Database
 {
@@ -40,6 +41,7 @@ namespace SimpleExpenditureTracker.Database
                     if (instance == null)
                     {
                         instance = new DatabaseConnector();
+                        instance.ConnectToDataBase();
                     }
 
                     return instance;
@@ -48,13 +50,21 @@ namespace SimpleExpenditureTracker.Database
             }
         }
 
-        public void ConnectToDataBase(string myConnectionString)
+        public void ConnectToDataBase()
         {
 
-            if (myConnectionString == null)
-            {
-                myConnectionString = "server=localhost;uid=root;pwd=P@ssw0rd;database=SimpleDatabase";
-            }
+            string myConnectionString = null;
+
+            //myConnectionString = "server=mysql;uid=appdbuser;pwd=P@ssw0rd;database=SimpleDatabase";
+            string server = "server=" + GetAppConfig.Instance.getDatabaseServer() + ";";
+            string uid = "uid=" + GetAppConfig.Instance.getDatabaseUid() + ";";
+            string password = "password=" + GetAppConfig.Instance.getDatabasePassword() + ";";
+            string database = "database=" + GetAppConfig.Instance.getDatabaseName();
+
+            myConnectionString = server + uid + password + database;
+
+            Console.WriteLine("myConnectionString  = " + myConnectionString);
+
 
             try
             {
@@ -66,6 +76,8 @@ namespace SimpleExpenditureTracker.Database
 
                 cmd = new MySqlCommand();
                 cmd.Connection = conn;
+
+                Console.WriteLine("Connected to MySQL..");
 
             }
             catch (MySqlException ex)
@@ -230,7 +242,7 @@ namespace SimpleExpenditureTracker.Database
                         ro.Role = myQueryNameReader.GetString(3);
 
                         ListOfReturnObjs.Add(ro);
-                    }                   
+                    }
                 }
 
                 myQueryNameReader.Close();
@@ -285,7 +297,7 @@ namespace SimpleExpenditureTracker.Database
                     }
                 }
 
-               // myChangePwdReader.Close();
+                // myChangePwdReader.Close();
 
             }
             catch (MySqlException ex)
@@ -346,10 +358,10 @@ namespace SimpleExpenditureTracker.Database
         {
             try
             {
-                 cmd.CommandText = "INSERT INTO `SimpleDatabase`.`UserTable` " +
-                    "(`UserUUID`, `UserFullName`, `UserLoginID`, `Password`, `Role`, `LastLogin`, `CreatedDT`) " +
-                    "VALUES" +
-                    "('" + Guid.NewGuid().ToString() + "', '" + eo.UserFullName + "', '" + eo.UserLoginID + "', '" + eo.HashedPassword + "', '" + eo.Role + "', '" + DateTime.Now.ToString("yyyyMMddHHmmss") + "', '" + DateTime.Now.ToString("yyyyMMddHHmmss") + "');";
+                cmd.CommandText = "INSERT INTO `SimpleDatabase`.`UserTable` " +
+                   "(`UserUUID`, `UserFullName`, `UserLoginID`, `Password`, `Role`, `LastLogin`, `CreatedDT`) " +
+                   "VALUES" +
+                   "('" + Guid.NewGuid().ToString() + "', '" + eo.UserFullName + "', '" + eo.UserLoginID + "', '" + eo.HashedPassword + "', '" + eo.Role + "', '" + DateTime.Now.ToString("yyyyMMddHHmmss") + "', '" + DateTime.Now.ToString("yyyyMMddHHmmss") + "');";
 
                 cmd.Prepare();
 
@@ -422,7 +434,7 @@ namespace SimpleExpenditureTracker.Database
 
                 myQueryTotalExpenditureByUserReader = cmd.ExecuteReader();
 
-            
+
                 while (myQueryTotalExpenditureByUserReader.Read())
                 {
                     if (!myQueryTotalExpenditureByUserReader.IsDBNull(0))
