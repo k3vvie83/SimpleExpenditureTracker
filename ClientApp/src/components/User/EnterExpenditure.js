@@ -1,11 +1,6 @@
-﻿import React from 'react';
-import axios from 'axios';
+﻿import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
-import { useState, useEffect } from 'react';
-import Cookies from 'universal-cookie';
-
-
-
+import axios from 'axios';
 
 export function EnterExpenditure(props) {
 
@@ -24,8 +19,7 @@ export function EnterExpenditure(props) {
 
 
     useEffect(() => {
-        console.log('EnterExpenditure >> component mounted! SignIn')
-    },[]); 
+    }, []);
 
     if (!window.sessionStorage.getItem("isAuthenticated")) {
         return <Redirect to='/unauthorised' />
@@ -49,10 +43,6 @@ export function EnterExpenditure(props) {
 
         axios.post('/api/createexpenditure', NewExpenditureInfo).then(response => {
 
-
-            console.log("EnterExpenditure >>  Response Status : " + response.status + "Response Data : " + response.data);
-
-
             if (response.status === 200) {
 
 
@@ -69,12 +59,10 @@ export function EnterExpenditure(props) {
                 setDateOfExpenditure(0);
             }
             else {
-
                 setNotificationSelection(1);
             }
         },
             (error => {
-
                 setNotificationSelection(1);
             }));
 
@@ -82,7 +70,7 @@ export function EnterExpenditure(props) {
     }
 
     function DisplayStatus() {
-    
+
         switch (notificationSelection) {
 
             case 0: return (null);
@@ -126,22 +114,22 @@ export function EnterExpenditure(props) {
                 <br />
                 <div className="form-group">
                     <label>Date Of Expenditure</label>
-                    <input type="Date" className="form-control" placeholder="Enter Date Of Expenditure" onChange={e => setDateOfExpenditure(e.target.value)} value={ DateOfExpenditure }/>
+                    <input type="Date" className="form-control" placeholder="Enter Date Of Expenditure" onChange={e => setDateOfExpenditure(e.target.value)} value={DateOfExpenditure} />
                 </div>
                 <br />
                 <div className="form-group">
                     <label>Description</label>
-                    <input type="Textbox" className="form-control" placeholder="Enter Description" onChange={e => setDescription(e.target.value)} value={ Description }/>
+                    <input type="Textbox" className="form-control" placeholder="Enter Description" onChange={e => setDescription(e.target.value)} value={Description} />
                 </div>
                 <br />
                 <div className="form-group">
                     <label>Amount Spent</label>
-                    <input type="Textbox" className="form-control" placeholder="Enter Amount Spent in SGD $" onChange={e => setAmountSpent(e.target.value)} value={ AmountSpent }/>
+                    <input type="Textbox" className="form-control" placeholder="Enter Amount Spent in SGD $" onChange={e => setAmountSpent(e.target.value)} value={AmountSpent} />
                 </div>
                 <br />
                 <div className="form-group">
                     <label>Remarks</label>
-                    <input type="TextArea" className="form-control" placeholder="Enter Remarks (Not Mandatory)" onChange={e => setRemarks(e.target.value)} value={ Remarks }/>
+                    <input type="TextArea" className="form-control" placeholder="Enter Remarks (Not Mandatory)" onChange={e => setRemarks(e.target.value)} value={Remarks} />
                 </div>
 
                 <div>

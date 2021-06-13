@@ -1,17 +1,10 @@
-﻿import React from 'react';
-import axios from 'axios';
+﻿import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
-import { useState, useEffect } from 'react';
-//import Cookies from 'universal-cookie';
 import { sha256 } from 'js-sha256';
-
-
-
+import axios from 'axios';
 
 export function ChangePassword(props) {
 
-    //const cookies = new Cookies();
-    //var UUID = cookies.get('UserUUID');
     var UUID = window.sessionStorage.getItem("UserUUID");
 
     const [UserUUID, setUserUUID] = useState(UUID);
@@ -22,8 +15,7 @@ export function ChangePassword(props) {
 
 
     useEffect(() => {
-        console.log('EnterExpenditure >> component mounted! SignIn')
-    }, []); 
+    }, []);
 
 
     if (!window.sessionStorage.getItem("isAuthenticated")) {
@@ -52,16 +44,12 @@ export function ChangePassword(props) {
         var HashedOldPassword = sha256(OldPassword);
         var HashedNewPassword = sha256(NewPassword);
 
-        console.log("Hashed Old Password: " + HashedOldPassword);
-        console.log("Hashed New Password: " + HashedNewPassword);
+        //console.log("Hashed Old Password: " + HashedOldPassword);
+        //console.log("Hashed New Password: " + HashedNewPassword);
 
         const ChangePasswordInfo = { UserUUID, HashedOldPassword, HashedNewPassword };
 
         axios.post('/api/changepassword', ChangePasswordInfo).then(response => {
-
-
-            console.log("changepassword >>  Response Status : " + response.status + "Response Data : " + response.data);
-
 
             if (response.status === 200) {
 
@@ -75,9 +63,6 @@ export function ChangePassword(props) {
                 else {
                     setNotificationSelection(1);
                 }
-                
-
-
             }
             else {
 
@@ -88,8 +73,6 @@ export function ChangePassword(props) {
 
                 setNotificationSelection(5);
             }));
-
-
     }
 
     function DisplayStatus() {
@@ -115,7 +98,6 @@ export function ChangePassword(props) {
 
             case 6: return (<div className='error'><a> Password less than 8 characters! </a></div>);
                 break;
-
 
             default: return (null);
         }
@@ -149,7 +131,7 @@ export function ChangePassword(props) {
                     <input type="Password" className="form-control" placeholder="Re-enter New Password" onChange={e => setReEnterNewPasword(e.target.value)} value={ReEnterNewPasword} />
                 </div>
                 <br />
-   
+
                 <div>
                     <button type="submit" className="btn btn-primary btn-block">Submit</button>
                 </div>
@@ -158,6 +140,5 @@ export function ChangePassword(props) {
 
         </div>);
 }
-
 
 export default ChangePassword;

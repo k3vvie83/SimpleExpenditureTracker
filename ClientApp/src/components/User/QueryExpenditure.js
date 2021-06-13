@@ -1,8 +1,6 @@
-﻿import React from 'react';
-import { useState, useEffect } from 'react'
-import axios from 'axios';
+﻿import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
-
+import axios from 'axios';
 
 export function QueryExpenditure(props) {
 
@@ -12,7 +10,6 @@ export function QueryExpenditure(props) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log('component mounted!')
         populateExpenses();
 
     }, [])
@@ -60,22 +57,18 @@ export function QueryExpenditure(props) {
                 setLoading(false);
             }
             else {
-
             }
         },
             (error => {
-
             }));
     }
 
-    let contents = loading
-        ? <p><em>Loading...</em></p>
-        : renderQueryTable(expenditure);
+    let contents = loading ? <p><em>Loading...</em></p> : renderQueryTable(expenditure);
 
     return (
         <div>
             <h3>Query Expenditure</h3>
-            <p>The following shows all the expenses incurred.</p>
+            <p>The following shows all past expenditure incurred.</p>
             {contents}
         </div>
     );

@@ -16,10 +16,10 @@ export function PageNotFound(props) {
     }
 
     useEffect(() => {
+
         setInterval(() => countdownFn(), 1000);
 
         return () => {
-
         }
     });
 
@@ -30,9 +30,9 @@ export function PageNotFound(props) {
 
     return (
         <div>
-            <h1> Error 404! Page Not Found! </h1>
+            <h1> Error 404 - Page Not Found! </h1>
             <br />
-            <h3>You will be redirected within 3 seconds....</h3>
+            <h3>You will be redirected within 3 seconds...</h3>
         </div>
     );
 

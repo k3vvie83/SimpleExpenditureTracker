@@ -12,14 +12,14 @@ export function Unauthorised(props) {
             setCountdown(countdown - 1)
         else
             setRedirectToHome(true);
-        
+
     }
 
     useEffect(() => {
+
         setInterval(() => countdownFn(), 1000);
 
         return () => {
-
         }
     });
 
@@ -30,9 +30,9 @@ export function Unauthorised(props) {
 
     return (
         <div>
-            <h1> Error 401! Unauthorised Access! </h1>
+            <h1> Error 401 - Unauthorised Access! </h1>
             <br />
-            <h3>You will be redirected within 3 seconds....</h3>
+            <h3>You will be redirected within 3 seconds...</h3>
         </div>
     );
 

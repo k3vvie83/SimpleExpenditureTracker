@@ -1,12 +1,11 @@
 ﻿import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Redirect } from 'react-router';
 import { sha256 } from 'js-sha256';
+import axios from 'axios';
 
 export function SignIn(props) {
 
     useEffect(() => {
-
     }, []);
 
     const [UserLoginID, setUserLoginID] = useState('');

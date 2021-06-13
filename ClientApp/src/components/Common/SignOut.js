@@ -3,6 +3,9 @@ import { Redirect } from 'react-router';
 
 export function SignOut(props) {
 
+    var UserFullNameVar = window.sessionStorage.getItem("UserFullName");
+    const [UserFullName, setUserFullName] = useState(UserFullNameVar);
+
     window.sessionStorage.clear();
 
     const [countdown, setCountdown] = useState(3);
@@ -22,7 +25,6 @@ export function SignOut(props) {
         setInterval(() => countdownFn(), 1000);
 
         return () => {
-
         }
     });
 
@@ -32,9 +34,9 @@ export function SignOut(props) {
 
     return (
         <div>
-            <h1> Bye! </h1>
+            <h1> Kthxbye { UserFullName } ! </h1>
             <br />
-            <h3>You will be redirected to the Sign In page ....</h3>
+            <h3>You will be redirected to the Sign In page within 3 seconds...</h3>
         </div>
     );
 

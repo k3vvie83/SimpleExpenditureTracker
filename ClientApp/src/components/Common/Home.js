@@ -1,6 +1,6 @@
-import React, { useState, useEffect }from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
+import axios from 'axios';
 
 export function Home(props) {
 
@@ -11,18 +11,16 @@ export function Home(props) {
     const [totalExpenditure, setTotalExpenditure] = useState(0.0);
 
     useEffect(() => {
-
         setInterval(() => setTimeNow(new Date().toLocaleTimeString()), 1000);
 
         return () => {
-
         }
     });
 
     function RenderOneTimeComponent() {
+
         useEffect(() => {
             getTotalExpenditure();
-
         }, []);
     }
 
@@ -61,13 +59,15 @@ export function Home(props) {
         switch (Role) {
             case "Admin": return (
                 <div>
-                    <h1>Hello, {window.sessionStorage.getItem("UserFullName")}! You are logged in as Admin!</h1>
+                    <h1>Hello, {window.sessionStorage.getItem("UserFullName")}!</h1>
+                    <br />
+                    <h2>   You are logged in as Admin!</h2>
 
-                    <p>Welcome to your daily expense tracking application.</p>
+                    <p>Welcome to your expenditure tracking application.</p>
 
                     <p>The Time now is {timeNow}.</p>
 
-                    <p>Your UUID is {UserUUID}.</p>
+                    <p>For Info, your user unique system generated UUID is {UserUUID}.</p>
 
                 </div>
             );
@@ -76,24 +76,23 @@ export function Home(props) {
 
             case "User": return (
                 <div>
-                    <h1>Hello, {window.sessionStorage.getItem("UserFullName")}! You are logged in as User!</h1>
+                    <h1>Hello, {window.sessionStorage.getItem("UserFullName")}!</h1>
+                    <br />
+                    <h2>   You are logged in as Admin!</h2>
 
-                    <p>Welcome to your daily expense tracking application.</p>
+                    <p>Welcome to your expenditure tracking application.</p>
 
                     <p>The Time now is {timeNow}.</p>
 
-                    <p>Your UUID is {UserUUID}.</p>
+                    <p>For Info, your user unique system generated UUID is {UserUUID}.</p>
 
-                    <p>Your current total expenditure is <b><u>$ {totalExpenditure.toFixed(2)}</u></b></p>
+                    <p>Your current total expenditure is <b>$ {totalExpenditure.toFixed(2)}</b></p>
                 </div>
             );
                 break;
 
             default: return (null);
         }
-
-
-        
     }
 
 
