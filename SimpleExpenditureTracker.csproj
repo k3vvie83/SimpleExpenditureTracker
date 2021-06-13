@@ -9,6 +9,7 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
+    <UserSecretsId>afaeb153-df9e-4dc7-b02d-1f0c75c77c3b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
