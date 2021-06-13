@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
-using A_Simple_Web_App.Objects;
+using SimpleExpenditureTracker.Objects;
 
 namespace SimpleExpenditureTracker.Database
 {

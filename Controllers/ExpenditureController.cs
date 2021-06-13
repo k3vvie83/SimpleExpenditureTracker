@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SimpleExpenditureTracker.Database;
 using SimpleExpenditureTracker.Objects;
 
-namespace A_Simple_Web_App.Controllers
+namespace SimpleExpenditureTracker.Controllers
 {
 
     [ApiController]
