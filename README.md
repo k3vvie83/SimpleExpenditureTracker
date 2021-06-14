@@ -56,7 +56,7 @@ Do a docker pull from **mysql:latest** and initialise the MySQL DB from the SQL 
 
 Linux (Ubuntu)
 ---------------
-- From terminal, type `sudo docker run -d --name=database --env="MYSQL_ROOT_PASSWORD=<your_own_root_password>" mysql:latest` to download the MySQL latest image 
+- From terminal, type `sudo docker run -d --name=database --env="MYSQL_ROOT_PASSWORD=<*your_own_root_password*>" mysql:latest` to download the MySQL latest image 
 - Verify the container is running by typing `sudo docker ps`, you should see the process running with the corresponding *CONTAINER ID*
 - Copy the SQL script into the docker container. Type `sudo docker cp Simple_Expenditure_App_SQL_Schema.sql <ContainerID>:/tmp`
 - Login to the container and execute the script. Type `sudo docker exec -it <ContainerID> bash`
@@ -66,7 +66,7 @@ Linux (Ubuntu)
 
 Windows
 -------
-- From console, type `docker run -d --name=database --env="MYSQL_ROOT_PASSWORD=<your_own_root_password>" mysql:latest` to download the MySQL latest image 
+- From console, type `docker run -d --name=database --env="MYSQL_ROOT_PASSWORD=<*your_own_root_password*>" mysql:latest` to download the MySQL latest image 
 - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
 - Copy the SQL script into the docker container. Type `docker cp Simple_Expenditure_App_SQL_Schema.sql <ContainerID>:/tmp`
 - Login to the container and execute the script. Type `docker exec -it <ContainerID> bash`
