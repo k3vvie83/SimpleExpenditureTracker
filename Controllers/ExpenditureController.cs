@@ -7,6 +7,7 @@ using SimpleExpenditureTracker.Objects;
 namespace SimpleExpenditureTracker.Controllers
 {
 
+    //API service for create expenditure
     [ApiController]
     [Route("api/createexpenditure")]
     public class CreateExpenditureController : ControllerBase
@@ -32,7 +33,7 @@ namespace SimpleExpenditureTracker.Controllers
 
     }
 
-
+    //API service for Query of summary of expenditure total by individual 
     [ApiController]
     [Route("api/querytotalexpenditurebyuser")]
     public class QueryTotalExpenditureByUserController : ControllerBase
@@ -58,6 +59,7 @@ namespace SimpleExpenditureTracker.Controllers
         }
     }
 
+    //API service for query of detailed expenditure by user
     [ApiController]
     [Route("api/populatedetailedpenditurebyuser")]
     public class QueryDetailedExpenditureByUserController : ControllerBase

@@ -8,9 +8,13 @@ export function About(props) {
 
             <br />
 
+            <h2> Application is created using Visio 2019 (Version 16.10.0) </h2>
+
+            <br />
+
             <h2>Front End is created with ReactJS</h2>
-            <p>npm version : 7.15.1</p>
-            <p>node version : 16.3.0</p>
+            <p>npm (version : 7.15.1)</p>
+            <p>node (version : 16.3.0)</p>
             <br />
             <p><u>Additional npm Packages</u></p>
             <p>axios@0.21.1</p>
@@ -19,7 +23,7 @@ export function About(props) {
 
             <br />
 
-            <h2>Back End is created with .NET Core 5.0</h2>
+            <h2>Back End is created with .NET 5.0</h2>
             <p><u>NuGet Packages</u></p>
             <p>MySql.Data Version 8.0.25 (MySql.Data.MySqlClient .Net Core Class Library)</p>
 

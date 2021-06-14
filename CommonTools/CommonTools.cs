@@ -33,6 +33,7 @@ namespace SimpleExpenditureTracker.CommonTools
             }
         }
 
+        //Common Utility to Seralise List<Objects> to JSON String 
         public string ConvertObjectToJSONString(object obj)
         {
             try

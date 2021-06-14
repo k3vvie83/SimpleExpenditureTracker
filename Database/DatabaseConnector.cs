@@ -8,6 +8,7 @@ namespace SimpleExpenditureTracker.Database
 {
     public sealed class DatabaseConnector
     {
+        //Enum
         public enum DBReturnResult : int
         {
             None = 0,
@@ -49,16 +50,17 @@ namespace SimpleExpenditureTracker.Database
             }
         }
 
+        //Connect to Database
         public void ConnectToDataBase()
         {
 
             string myConnectionString = null;
 
             //myConnectionString = "server=mysql;uid=appdbuser;pwd=P@ssw0rd;database=SimpleDatabase";
-            string server = "server=" + GetAppConfig.Instance.getDatabaseServer() + ";";
-            string uid = "uid=" + GetAppConfig.Instance.getDatabaseUid() + ";";
-            string password = "password=" + GetAppConfig.Instance.getDatabasePassword() + ";";
-            string database = "database=" + GetAppConfig.Instance.getDatabaseName();
+            string server = "server=" + GetDatabaseConfig.Instance.getDatabaseServer() + ";";
+            string uid = "uid=" + GetDatabaseConfig.Instance.getDatabaseUid() + ";";
+            string password = "password=" + GetDatabaseConfig.Instance.getDatabasePassword() + ";";
+            string database = "database=" + GetDatabaseConfig.Instance.getDatabaseName();
 
             myConnectionString = server + uid + password + database;
 
@@ -87,6 +89,7 @@ namespace SimpleExpenditureTracker.Database
             return;
         }
 
+        //Query User Password Function Call
         public DBReturnResult QueryUserPassword(string UserLoginID, ref string userPassword)
         {
             MySqlDataReader myPwdReader = null;
@@ -121,6 +124,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //Query User Role Function Call
         public DBReturnResult QueryUserRole(string UserUUID, ref string Role)
         {
             MySqlDataReader myPwdReader = null;
@@ -155,6 +159,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //Query User UUID Function Call
         public DBReturnResult QueryUserUUID(string UserLoginID, ref string UserUUID)
         {
             MySqlDataReader myQueryUserReader = null;
@@ -187,6 +192,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //Query User Name Function Call
         public DBReturnResult QueryUserName(string UserUUID, ref string UserFullName)
         {
             MySqlDataReader myQueryNameReader = null;
@@ -218,6 +224,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //Query All User Function Call
         public DBReturnResult QueryAllUser(ref List<SignInReturnObject> ListOfReturnObjs)
         {
             MySqlDataReader myQueryNameReader = null;
@@ -258,6 +265,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //CHange User Password Function Call
         public DBReturnResult ChangeUserPassword(string UserUUID, string oldPassword, string newPassword, ref bool success)
         {
             string userPassword = null;
@@ -311,6 +319,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //Update User Last Login Timestamp Function Call
         public DBReturnResult UpdateLastLoginTimestamp(string UserUUID)
         {
             try
@@ -330,6 +339,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //Create New Expenditure Record Function Call
         public DBReturnResult CreateNewExpenditureRecord(CreateExpenditureObject eo)
         {
             try
@@ -353,6 +363,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //Add New User Function Call
         public DBReturnResult AddUser(CreateUpdateUserObject eo)
         {
             try
@@ -376,6 +387,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //Query Individual User's Expenditure Function Call
         public DBReturnResult QueryExpenditureRecord(string UserUUID, ref List<QueryExpenditureObject> listOfQEO)
         {
 
@@ -422,6 +434,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
+        //Query Total Amount Spent by User Function Call
         public DBReturnResult QueryTotalExpenditureByUser(string UserUUID, ref float returnExpenditureAmount)
         {
             MySqlDataReader myQueryTotalExpenditureByUserReader = null;
@@ -455,7 +468,7 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
 
-
+        //Remove User Function Call
         public DBReturnResult DeleteUser(string UserUUID)
         {
             try
@@ -475,6 +488,11 @@ namespace SimpleExpenditureTracker.Database
             return DBReturnResult.SUCCESS;
         }
     }
+
+
+    /*
+     * Not Implemented Due to Time Constraints
+     */
 
     //public DBReturnResult UpdateExpenditureRecord(CreateExpenditureObject eo)
     //{

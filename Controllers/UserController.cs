@@ -7,6 +7,7 @@ using SimpleExpenditureTracker.Objects;
 
 namespace SimpleExpenditureTracker.Controllers
 {
+    //API service for sign in
     [ApiController]
     [Route("api/signin")]
     public class SignInController : ControllerBase
@@ -69,6 +70,7 @@ namespace SimpleExpenditureTracker.Controllers
         }
     }
 
+    //API service for change password
     [ApiController]
     [Route("api/changepassword")]
     public class ChangePasswordController : ControllerBase
@@ -95,6 +97,7 @@ namespace SimpleExpenditureTracker.Controllers
         }
     }
 
+    //API service for create user
     [ApiController]
     [Route("api/adduser")]
     public class AddUserController : ControllerBase
@@ -129,6 +132,7 @@ namespace SimpleExpenditureTracker.Controllers
         }
     }
 
+    //API service for return all user
     [ApiController]
     [Route("api/getallusers")]
     public class GetAllUserController : ControllerBase
@@ -175,6 +179,7 @@ namespace SimpleExpenditureTracker.Controllers
         }
     }
 
+    //API service for remove user
     [ApiController]
     [Route("api/deleteuser")]
     public class DeleteUserController : ControllerBase

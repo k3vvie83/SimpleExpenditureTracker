@@ -4,7 +4,7 @@ using System.Configuration;
 
 namespace SimpleExpenditureTracker.Config
 {
-    public class GetAppConfig
+    public class GetDatabaseConfig
     {
         private static string database_server;
         private static string database_uid;
@@ -13,18 +13,18 @@ namespace SimpleExpenditureTracker.Config
 
         private static readonly object padlock = new object();
 
-        public static GetAppConfig instance;
+        public static GetDatabaseConfig instance;
 
-        private GetAppConfig()
+        private GetDatabaseConfig()
         {
         }
 
-        ~GetAppConfig()
+        ~GetDatabaseConfig()
         {
             instance = null;
         }
 
-        public static GetAppConfig Instance
+        public static GetDatabaseConfig Instance
         {
             get
             {
@@ -32,8 +32,8 @@ namespace SimpleExpenditureTracker.Config
                 {
                     if (instance == null)
                     {
-                        instance = new GetAppConfig();
-                        instance.getConfig();
+                        instance = new GetDatabaseConfig();
+                        instance.getDatabaseConfig();
                     }
 
                     return instance;
@@ -42,7 +42,8 @@ namespace SimpleExpenditureTracker.Config
             }
         }
 
-        public void getConfig()
+        //Get Database Config from file
+        public void getDatabaseConfig()
         {
             Console.WriteLine("Loading App Config from 'app.config'");
             database_server = ConfigurationManager.AppSettings["database_server"];
