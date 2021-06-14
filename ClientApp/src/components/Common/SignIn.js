@@ -57,12 +57,13 @@ export function SignIn(props) {
 
             //Get Encrypted Dat from Session Storage.
             var EncryptedData = window.sessionStorage.getItem("Data");
+            var timestamp = window.sessionStorage.getItem("Timestamp");
 
             // If Data is not NULL
             if (EncryptedData != null) {
 
                 //Decrypt Data
-                var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+                var bytes = CryptoJS.AES.decrypt(EncryptedData, "htx" + timestamp + "htx");
                 var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
                 //Set Decrypted Data into Array
@@ -139,7 +140,7 @@ export function SignIn(props) {
                 //console.log("Data Before Encryption: " + JSON.stringify(data));
 
                 //Encrypt Data
-                var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'my-secret-key@123').toString();
+                var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), "htx" + TimestampLocal + "htx").toString();
 
                 //Set Encrypted Data
                 setEncryptedData(ciphertext);

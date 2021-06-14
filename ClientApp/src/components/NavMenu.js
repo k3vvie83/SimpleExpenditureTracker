@@ -14,7 +14,7 @@ export function NavMenu(props) {
     const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
 
     useEffect(() => {
-        intervalID = setInterval(() => checkAuthentication(), 1000);
+        intervalID = setInterval(() => checkAuthentication(), 500);
 
         return () => {
             clearInterval(intervalID);
@@ -24,13 +24,15 @@ export function NavMenu(props) {
     function checkAuthentication() {
 
         var EncryptedData = window.sessionStorage.getItem("Data");
+        var timestamp = window.sessionStorage.getItem("Timestamp");
+
         var isAuthenticated = false;
         var isAdmin = '';
 
         if (EncryptedData != null) {
 
             //Decrypt Data
-            var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+            var bytes = CryptoJS.AES.decrypt(EncryptedData, "htx" + timestamp + "htx");
             var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
             SetDecryptedDataArray(decryptedData);
