@@ -49,6 +49,7 @@ export function SignOut(props) {
 
     }
 
+    //If True, Redirect to Home
     if (redirectToSignInPage) {
 
         return <Redirect to='/' />

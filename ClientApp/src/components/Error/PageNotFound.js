@@ -3,12 +3,14 @@ import { Redirect } from 'react-router';
 
 export function PageNotFound(props) {
 
+    //Variable for Count down Timer
     var intervalID = 0;
-
     const [countdown, setCountdown] = useState(3);
-    const [redirectToHome, setRedirectToHome] = useState(false);
-    
 
+    //Redirect to Home Flag
+    const [redirectToHome, setRedirectToHome] = useState(false);
+
+    //UseEffect for Count down timer 
     useEffect(() => {
         intervalID = setTimeout(() => countdownFn(), 1000);
 
@@ -17,19 +19,19 @@ export function PageNotFound(props) {
         };
     }, [countdown]);
 
-
+    //Count down Timer Function
     function countdownFn() {
 
         if (countdown > 0) {
             setCountdown(countdown - 1)
         }
-
-        if (countdown === 0) {
+        else {
             setRedirectToHome(true);
         }
 
     }
 
+    //If true, Redirect to Home
     if (redirectToHome) {
         return <Redirect to='/' />
     }
