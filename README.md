@@ -63,13 +63,13 @@ To run the application in Docker):
 To run the application in docker, follow the below steps
 
 - To start application from build:
-  - From console, type `docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:1.0` to start the container image
+  - From console/terminal, type `docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:1.0` to start the container image
   - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
   
   **Alternatively**
   
 - To start application from docker pull:
-  - From console, type `docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:1.0` to pull the container from docker hub and then start the container image
+  - From console/terminal, type `docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:1.0` to pull the container from docker hub and then start the container image
   - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
 
 
