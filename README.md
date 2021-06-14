@@ -20,85 +20,56 @@ About
 
 
 
-To Build (Application):
+To Build Application:
 ===
-
 To build the application from source code and compile it into containers, follow the below instructions. 
 
-***Alternatively, you can also do a docker pull from `kevinchan83/simple_expenditure_tracker:1.0`***
+Alternatively, you can also do a docker pull from ***`kevinchan83/simple_expenditure_tracker:1.0`***.
+To pull from docker, type `docker pull kevinchan83/simple_expenditure_tracker:1.0` in the console or terminal.
 
-Linux (Ubuntu)
+macOS / Linux (Prerequisite)
 ---------------
-- Install Docker, Refer to guide (https://docs.docker.com/engine/install/ubuntu/)
-- Install NodeJS, Refer to guide (https://github.com/nodesource/distributions/blob/master/README.md#debinstall)
-- Pull source code from GitHub ***`k3vvie83/SimpleExpenditureTracker`*** (https://github.com/k3vvie83/SimpleExpenditureTracker)
-- Go to terminal, unzip package and change directory to the unzip package
-- Type `sudo docker build -t simple_expenditure_tracker:1.0 .` 
-- Enter SUDO password
-- Wait for image build to finish
-- Type `sudo docker images`, you shoud see the the image created under *REPOSITORY*
+- Install Docker on Linux, Refer to guide (https://docs.docker.com/engine/install/) on installation instruction on different OS variant.
+- Install NodeJS on Linux, Refer to guide (https://nodejs.org/en/download/package-manager/) on installation instruction on different OS variant.
 
-Windows
+Windows (Prerequisite)
 -------
 - Download and install Docker for Windows (https://desktop.docker.com/win/stable/amd64/Docker%20Desktop%20Installer.exe)
 - Download and install NodeJS for Windows (https://nodejs.org/dist/v16.3.0/node-v16.3.0-x86.msi)
+
+To Build
+-------
 - Pull source code from GitHub ***`k3vvie83/SimpleExpenditureTracker`*** (https://github.com/k3vvie83/SimpleExpenditureTracker)
-- Go to console, unzip package and change directory to the unzip package
+- Go to console/terminal, unzip package and change directory to the unzip package
 - Type `docker build -t simple_expenditure_tracker:1.0 .`
 - Wait for image build to finish
 - Type `docker images`, you shoud see the the image created under *REPOSITORY*
 
 ----
 Database:
-==
-Do a docker pull from **mysql:latest** and initialise the MySQL DB from the SQL script `"Simple_Expenditure_App_SQL_Schema.sql"` provided in the source code package.
+===
+Do a docker pull for latest MySQL Version and initialise the MySQL DB from the SQL script provided in the source code package.
 
-
-Linux (Ubuntu)
----------------
-- From terminal, type `sudo docker run -d --name=database --env="MYSQL_ROOT_PASSWORD=<your_own_root_password>" mysql:latest` to download the MySQL latest image 
-- Verify the container is running by typing `sudo docker ps`, you should see the process running with the corresponding *CONTAINER ID*
-- Copy the SQL script into the docker container. Type `sudo docker cp Simple_Expenditure_App_SQL_Schema.sql <ContainerID>:/tmp`
-- Login to the container and execute the script. Type `sudo docker exec -it <ContainerID> bash`
-- Change Directory to `/tmp`
-- Type `mysql -u root -p < Simple_Expenditure_App_SQL_Schema.sql `
-- Enter Password when prompt.                                                              
-
-Windows
--------
-- From console, type `docker run -d --name=database --env="MYSQL_ROOT_PASSWORD=<your_own_root_password>" mysql:latest` to download the MySQL latest image 
+- From console/terminal, type `docker run -d --name=database --env="MYSQL_ROOT_PASSWORD=<*your_own_root_password*>" mysql:latest` to pull the MySQL latest image from docker hub.
 - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
 - Copy the SQL script into the docker container. Type `docker cp Simple_Expenditure_App_SQL_Schema.sql <ContainerID>:/tmp`
 - Login to the container and execute the script. Type `docker exec -it <ContainerID> bash`
-- Change Directory to `/tmp`
-- Type `mysql -u root -p < Simple_Expenditure_App_SQL_Schema.sql`
-- Enter Password when prompt.  
-
+- Type `mysql -u root -p < /tmp/Simple_Expenditure_App_SQL_Schema.sql`
+- Enter Password when prompt. ***Password is the SQL password set during MySQL Image creation.***
+- Type `exit` to exit bash shell.
                                                                 
-To Start (Application):
+To run the application in Docker):
 ====
-Linux (Ubuntu)
----------------
-- To start application from build:
-  - From terminal, type `sudo docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:1.0` to start the container image
-  - Verify the container is running by typing `sudo docker ps`, you should see the process running with the corresponding *CONTAINER ID*
-  
-  **Alternatively**
-  
-- To start application from docker pull:
-  - From terminal, type `sudo docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:1.0` to pull the container from docker hub and then start the container image
-  - Verify the container is running by typing `sudo docker ps`, you should see the process running with the corresponding *CONTAINER ID*
+To run the application in docker, follow the below steps
 
-Windows
--------
 - To start application from build:
-  - From console, type `docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:1.0` to start the container image
+  - From console/terminal, type `docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:1.0` to start the container image
   - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
   
   **Alternatively**
   
 - To start application from docker pull:
-  - From console, type `docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:1.0` to pull the container from docker hub and then start the container image
+  - From console/terminal, type `docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:1.0` to pull the container from docker hub and then start the container image
   - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
 
 
@@ -115,8 +86,3 @@ How to use the application
 - User can create expenditure records but not add or remove users
 - Both Admin and User can change own password
 
-How to change Database Connection
-===
-- Locate file `app.config` in source code package
-- Locate line `<add key="database_server" value="database"/>` and change value to new hostname or ip address
-- Recompile application
