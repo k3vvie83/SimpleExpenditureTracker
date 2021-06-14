@@ -62,7 +62,8 @@ Linux (Ubuntu)
 - Login to the container and execute the script. Type `sudo docker exec -it <ContainerID> bash`
 - Change Directory to `/tmp`
 - Type `mysql -u root -p < Simple_Expenditure_App_SQL_Schema.sql `
-- Enter Password when prompt. ***Password is the SQL password set during MySQL Image creation.***                                                             
+- Enter Password when prompt. ***Password is the SQL password set during MySQL Image creation.***     
+- Type `exit` to exit bash shell.                                                        
 
 Windows
 -------
@@ -73,6 +74,7 @@ Windows
 - Change Directory to `/tmp`
 - Type `mysql -u root -p < Simple_Expenditure_App_SQL_Schema.sql`
 - Enter Password when prompt. ***Password is the SQL password set during MySQL Image creation.***
+- Type `exit` to exit bash shell.
 
                                                                 
 To Start (Application):
