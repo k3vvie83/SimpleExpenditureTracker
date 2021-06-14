@@ -3,25 +3,33 @@ import { Redirect } from 'react-router';
 
 export function PageNotFound(props) {
 
+    var intervalID = 0;
+
     const [countdown, setCountdown] = useState(3);
     const [redirectToHome, setRedirectToHome] = useState(false);
+    
+
+    useEffect(() => {
+        intervalID = setTimeout(() => countdownFn(), 1000);
+
+        return () => {
+            clearTimeout(intervalID);
+        };
+    }, [countdown]);
+
 
     function countdownFn() {
 
-        if (countdown > 1)
+        if (countdown > 0) {
             setCountdown(countdown - 1)
-        else
+        }
+
+        if (countdown === 0) {
+            //clearTimeout(intervalID);
             setRedirectToHome(true);
+        }
 
     }
-
-    useEffect(() => {
-
-        setInterval(() => countdownFn(), 1000);
-
-        return () => {
-        }
-    });
 
     if (redirectToHome) {
 
@@ -32,7 +40,7 @@ export function PageNotFound(props) {
         <div>
             <h1> Error 404 - Page Not Found! </h1>
             <br />
-            <h3>You will be redirected within 3 seconds...</h3>
+            <h3>You will be redirected within {countdown} seconds...</h3>
         </div>
     );
 

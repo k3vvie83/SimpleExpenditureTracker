@@ -1,12 +1,10 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
 export function EnterExpenditure(props) {
 
-    var UUID = window.sessionStorage.getItem("UserUUID");
-
-    const [UserUUID, setUserUUID] = useState(UUID);
     const [DateOfExpenditure, setDateOfExpenditure] = useState('');
     const [Description, setDescription] = useState('');
     const [AmountSpent, setAmountSpent] = useState('');
@@ -17,13 +15,43 @@ export function EnterExpenditure(props) {
     const [RemarksInNoticeBar, setRemarksInNoticeBar] = useState('');
     const [notificationSelection, setNotificationSelection] = useState(0);
 
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [UserRole, setUserRole] = useState('');
+    const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
+    const [UserUUID, setUserUUID] = useState('');
 
     useEffect(() => {
+        DecryptData();
     }, []);
 
-    if (!window.sessionStorage.getItem("isAuthenticated")) {
-        return <Redirect to='/unauthorised' />
+    function DecryptData() {
+        var EncryptedData = window.sessionStorage.getItem("Data");
+        var isAuthenticated = false;
+        var role = '';
+
+        if (EncryptedData != null) {
+            var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+            var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+            SetDecryptedDataArray(decryptedData);
+            var isAuthenticated = decryptedData.isAuthenticated;
+            var role = decryptedData.Role;
+            var userUUID = decryptedData.UserUUID;
+
+            setIsUserAuthenticated(isAuthenticated);
+            setUserRole(role);
+            setUserUUID(userUUID);
+
+            console.log("Home::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
+            console.log("Home::setUserRole " + new Date().getTime() + " " + role);
+            console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
+        }
+
     }
+
+    if (!isUserAuthenticated) {
+        return <Redirect to='/unauthorised' />
+    }   
 
     const mySubmitHandler = (event) => {
 

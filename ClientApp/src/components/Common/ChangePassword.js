@@ -2,25 +2,22 @@
 import { Redirect } from 'react-router';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
 export function ChangePassword(props) {
 
-    var UUID = window.sessionStorage.getItem("UserUUID");
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
+    const [UserUUID, setUserUUID] = useState('');
 
-    const [UserUUID, setUserUUID] = useState(UUID);
     const [OldPassword, setOldPassword] = useState('');
     const [NewPassword, setNewPassword] = useState('');
     const [ReEnterNewPasword, setReEnterNewPasword] = useState('');
     const [notificationSelection, setNotificationSelection] = useState(0);
 
+    const [isDecryptDataDone, setDecryptDataDone] = useState(false);
 
-    useEffect(() => {
-    }, []);
-
-
-    if (!window.sessionStorage.getItem("isAuthenticated")) {
-        return <Redirect to='/unauthorised' />
-    }
+    DecryptData();
 
     const mySubmitHandler = (event) => {
 
@@ -103,6 +100,45 @@ export function ChangePassword(props) {
         }
     }
 
+    function DecryptData() {
+        if (!isDecryptDataDone) {
+            var EncryptedData = window.sessionStorage.getItem("Data");
+            var isAuthenticated = false;
+            var role = '';
+
+            if (EncryptedData != null) {
+                var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+                var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+                SetDecryptedDataArray(decryptedData);
+                var isAuthenticated = decryptedData.isAuthenticated;
+                var role = decryptedData.Role;
+                var userUUID = decryptedData.UserUUID;
+
+                setUserUUID(userUUID);
+                setIsUserAuthenticated(true);
+                //setUserRole(role);
+
+                console.log("ChangePassword::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
+                console.log("ChangePassword::setUserRole " + new Date().getTime() + " " + role);
+                console.log("ChangePassword::setUserUUID " + new Date().getTime() + " " + userUUID);
+
+                setDecryptDataDone(true);
+
+               // getTotalExpenditure(userUUID);
+            }
+            else {
+                setIsUserAuthenticated(false);
+                setDecryptDataDone(true);
+            }
+        }
+
+    }
+
+
+    if (!isUserAuthenticated) {
+        return <Redirect to='/unauthorised' />
+    }
 
     return (
         <div>
