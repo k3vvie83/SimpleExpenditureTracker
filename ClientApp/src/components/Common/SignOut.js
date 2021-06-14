@@ -5,22 +5,25 @@ import CryptoJS from 'crypto-js';
 
 export function SignOut(props) {
 
+    //Set Countdown Timer
     var intervalID = 0;
-
-    const [UserFullName, setUserFullName] = useState('');
-
     const [countdown, setCountdown] = useState(3);
+
+    //Redirect To SignIn Page Flag
     const [redirectToSignInPage, setRedirectToSignInPage] = useState(false);
+
+    //Get Session Storage Data
+    const [UserUUID, setUserUUID] = useState('');
+    const [UserFullName, setUserFullName] = useState('');
+    const [UserRole, setUserRole] = useState('User');
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [LoggedInTimestamp, setLoggedInTimestamp] = useState(0);
     const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
-    
 
-    useEffect(() => {
-        DecryptData();
-        window.sessionStorage.clear();
-        return () => {
-        }
-    },[]);
+    //Flag for DecryptData()
+    const [isDecryptDataDone, setDecryptDataDone] = useState(false);
 
+    //Count down Timer Effect
     useEffect(() => {
         intervalID = setTimeout(() => countdownFn(), 1000);
 
@@ -30,37 +33,14 @@ export function SignOut(props) {
     }, [countdown]);
 
 
+    //Run Decrypt Data Function
+    DecryptData();
+
+
+    //Count Down Timer
     function countdownFn() {
 
         if (countdown > 0) {
-            setCountdown(countdown - 1)
-        }
-
-        if (countdown === 0) {
-            redirectToSignInPage(true);
-        }
-
-    }
-
-    function DecryptData() {
-        var EncryptedData = window.sessionStorage.getItem("Data");
-        var UserFullName = false;
-
-        if (EncryptedData != null) {
-            var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
-            var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-
-            SetDecryptedDataArray(decryptedData);
-            UserFullName = decryptedData.UserFullName;
-            setUserFullName(UserFullName);
-            //console.log("SignOut::UserFullName " + new Date().getTime() + " " + UserFullName);
-        }
-
-    }
-
-    function countdownFn() {
-
-        if (countdown > 1) {
             setCountdown(countdown - 1)
         }
         else {
@@ -70,8 +50,59 @@ export function SignOut(props) {
     }
 
     if (redirectToSignInPage) {
+
         return <Redirect to='/' />
     }
+
+    //Decrypt Session Storage Data Function
+    function DecryptData() {
+
+        //If Decrypt Data is not Done, Then Proceed, Else Skip
+        if (!isDecryptDataDone) {
+
+            //Get Encrypted Dat from Session Storage.
+            var EncryptedData = window.sessionStorage.getItem("Data");
+
+            var UserFullName = false;
+
+            // If Data is not NULL
+            if (EncryptedData != null) {
+
+                //Decrypt Data
+                var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+                var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+                //Set Decrypted Data into Array
+                SetDecryptedDataArray(decryptedData);
+
+                //Set User UUID
+                setUserUUID(decryptedData.UserUUID);
+
+                //Set User Full Name
+                setUserFullName(decryptedData.UserFullName);
+
+                //Set User Role
+                setUserRole(decryptedData.Role);
+
+                //Set Logged in Timestamp
+                setLoggedInTimestamp(decryptedData.Timestamp)
+
+                //Set User Auth to True
+                setIsUserAuthenticated(true);
+
+                //Set Decryption Flag Done
+                setDecryptDataDone(true);
+
+                //Clear Session Storage
+                window.sessionStorage.clear();
+            }
+        }
+
+    }
+
+
+
+
 
     return (
         <div>

@@ -5,19 +5,24 @@ import CryptoJS from 'crypto-js';
 
 export function Home(props) {
 
+    //Var for clock tick message
     var timerIntervalID = 0;
-
     const [timeNow, setTimeNow] = useState(new Date().toLocaleTimeString());
     const [totalExpenditure, setTotalExpenditure] = useState(0.0);
 
+    //Get Session Storage Data
+    const [UserUUID, setUserUUID] = useState('');
+    const [UserFullName, setUserFullName] = useState('');
+    const [UserRole, setUserRole] = useState('User');
     const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
-    const [UserRole, setUserRole] = useState('');
+    const [LoggedInTimestamp, setLoggedInTimestamp] = useState(0);
     const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
 
+
+    //Flag for DecryptData()
     const [isDecryptDataDone, setDecryptDataDone] = useState(false);
 
-    DecryptData();
-
+    //UseEffect for Clock Tick Message
     useEffect(() => {
         timerIntervalID = setInterval(() => setTimeNow(new Date().toLocaleTimeString()), 1000);
 
@@ -26,47 +31,84 @@ export function Home(props) {
         }
     });
 
-    function DecryptData() {
-        if (!isDecryptDataDone) {
-            var EncryptedData = window.sessionStorage.getItem("Data");
-            var isAuthenticated = false;
-            var role = '';
+    //Run Decrypt Data Function
+    DecryptData();
 
+    //if Decrypt Data and User is NOT auth, Redirect to 401 page
+    if (isDecryptDataDone) {
+
+        if (!isUserAuthenticated) {
+
+            return <Redirect to='/unauthorised' />
+
+        }
+
+    }
+
+    //Decrypt Session Storage Data Function
+    function DecryptData() {
+
+        //If Decrypt Data is not Done, Then Proceed, Else Skip
+        if (!isDecryptDataDone) {
+
+            //Get Encrypted Dat from Session Storage.
+            var EncryptedData = window.sessionStorage.getItem("Data");
+
+            //var isAuthenticated = false;
+            //var role = '';
+
+            // If Data is not NULL
             if (EncryptedData != null) {
+
+                //Decrypt Data
                 var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
                 var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
+                //Set Decrypted Data into Array
                 SetDecryptedDataArray(decryptedData);
-                var isAuthenticated = decryptedData.isAuthenticated;
-                var role = decryptedData.Role;
-                var userUUID = decryptedData.UserUUID;
 
+                //Set User UUID
+                setUserUUID(decryptedData.UserUUID);
+
+                //Set User Full Name
+                setUserFullName(decryptedData.UserFullName);
+
+                //Set User Role
+                setUserRole(decryptedData.Role);
+
+                //Set Logged in Timestamp
+                setLoggedInTimestamp(decryptedData.Timestamp)
+
+                //Set User Auth to True
                 setIsUserAuthenticated(true);
-                setUserRole(role);
 
-                //console.log("Home::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
-                //console.log("Home::setUserRole " + new Date().getTime() + " " + role);
-                //console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
-
+                //Set Decryption Flag Done
                 setDecryptDataDone(true);
 
-                getTotalExpenditure(userUUID);
+                //Get Total expenditure for user
+                getTotalExpenditure(decryptedData.UserUUID);
             }
             else {
+
+                //Set User Auth to False
                 setIsUserAuthenticated(false);
+
+                //Set Decryption Flag Done
                 setDecryptDataDone(true);
             }
         }
 
     }
 
-
+    //Get Total Expenditure for User Function
     function getTotalExpenditure(UserUUID) {
 
-        //console.log("getTotalExpenditure");
-        const UserUUIDObj = { UserUUID };
+        if (UserUUID != '') {
 
-        if (UserUUIDObj.UserUUID != '') {
+            //Create newUserInfo JSON object
+            const UserUUIDObj = { UserUUID };
+
+            //Call Backend to query
             axios.post('/api/querytotalexpenditurebyuser', UserUUIDObj).then(response => {
 
                 if (response.status === 200) {
@@ -81,16 +123,13 @@ export function Home(props) {
 
                 }));
         }
-        else {
-
-        }
 
     }
 
     function HomeScreen() {
         return (
             <div>
-            
+
                 <h1>Hello, {decryptedDataArray.UserFullName}!</h1>
                 <br />
 
@@ -109,10 +148,6 @@ export function Home(props) {
         );
     }
 
-    //console.log("isUserAuthenticated " + isUserAuthenticated)
-    if (!isUserAuthenticated) {
-        return <Redirect to='/unauthorised' />
-    }
 
 
     return (

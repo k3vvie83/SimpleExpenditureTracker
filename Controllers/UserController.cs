@@ -88,7 +88,7 @@ namespace SimpleExpenditureTracker.Controllers
             {
                 Console.WriteLine("QueryTotalExpenditureByUserController Success.");
 
-                return Ok("{Result: Success}");
+                return Ok("Success");
             }
             return StatusCode(400);
 
