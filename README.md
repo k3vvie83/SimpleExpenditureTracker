@@ -1,7 +1,24 @@
-# SimpleExpenditureTracker
+# SimpleExpenditureTracker (Ver 1.0)
 A Simple Expenditure Tracker Application
 
 ----
+About
+===
+- Application is created using Visio 2019.
+- Frontend
+  - ReactJS
+  - NodeJS
+  - axios@0.21.1
+  - crypto-js@4.0.0
+  - js-sha256@0.9.0
+- Backend
+  - .Net Core 5
+  - MySql.Data Version 8.0.25 (MySql.Data.MySqlClient .Net Core Class Library)
+- Database
+  - MySQL Community Server (Version 8.0.25)
+
+
+
 
 To Build (Application):
 ===
@@ -98,4 +115,8 @@ How to use the application
 - User can create expenditure records but not add or remove users
 - Both Admin and User can change own password
 
-
+How to change Database Connection
+===
+- Locate file `app.config` in source code package
+- Locate line `<add key="database_server" value="mysql"/>` and change value to new hostname or ip address
+- Recompile application
