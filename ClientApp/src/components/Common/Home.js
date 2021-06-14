@@ -11,6 +11,7 @@ export function Home(props) {
     const [totalExpenditure, setTotalExpenditure] = useState(0.0);
 
     const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [UserRole, setUserRole] = useState('');
     const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
 
     const [isDecryptDataDone, setDecryptDataDone] = useState(false);
