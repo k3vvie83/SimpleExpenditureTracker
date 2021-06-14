@@ -42,6 +42,7 @@ export function EnterExpenditure(props) {
 
     function DecryptData() {
         if (!isDecryptDataDone) {
+
             var EncryptedData = window.sessionStorage.getItem("Data");
             //var isAuthenticated = false;
             var role = '';

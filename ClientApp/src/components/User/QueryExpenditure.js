@@ -8,32 +8,53 @@ export function QueryExpenditure(props) {
     const [expenditure, setExpenditure] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    //const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [UserRole, setUserRole] = useState('User');
     const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
+    //const [UserUUID, setUserUUID] = useState('');
+
+    const [isDecryptDataDone, setDecryptDataDone] = useState(false);
 
     var UserUUID = '';
-    var isUserAuthenticated = false  ;
-    
+    //var isUserAuthenticated = false  ;
 
-    useEffect(() => {
+
+    //useEffect(() => {
+    if (!isDecryptDataDone) {
         DecryptData();
-        populateExpenses();
-    }, []);
+        /*populateExpenses();*/
+        //}, []);
+    }
+
+//    if (isDecryptDataDone && isUserAuthenticated) {
+//    populateExpenses();
+//}
+
+
 
     function DecryptData() {
-        var EncryptedData = window.sessionStorage.getItem("Data");
+        if (!isDecryptDataDone) {
+            var EncryptedData = window.sessionStorage.getItem("Data");
 
-        if (EncryptedData != null) {
-            var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
-            var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-            //var isAuthenticated = decryptedData.isAuthenticated;
+            if (EncryptedData != null) {
+                var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+                var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+                //var isAuthenticated = decryptedData.isAuthenticated;
 
-            SetDecryptedDataArray(decryptedData);
-            UserUUID = decryptedData.UserUUID;
-            //setIsUserAuthenticated(true);
-            isUserAuthenticated = true;
+                SetDecryptedDataArray(decryptedData);
+                //setUserUUID(decryptedData.UserUUID);
+                UserUUID = decryptedData.UserUUID;
+                setIsUserAuthenticated(true);
+                setUserRole(decryptedData.Role);
+                setDecryptDataDone(true);
+
+                populateExpenses();
+            }
+            else {
+                setIsUserAuthenticated(false);
+                setDecryptDataDone(true);
+            }
         }
-
     }
 
 
@@ -73,23 +94,33 @@ export function QueryExpenditure(props) {
 
         const UserUUIDObj = { UserUUID };
 
-        axios.post('/api/populatedetailedpenditurebyuser', UserUUIDObj).then(response => {
+        if (UserUUIDObj != '') {
+            axios.post('/api/populatedetailedpenditurebyuser', UserUUIDObj).then(response => {
 
-            if (response.status === 200) {
+                if (response.status === 200) {
 
-                setExpenditure(response.data);
-                setLoading(false);
-            }
-            else {
-            }
-        },
-            (error => {
-            }));
+                    setExpenditure(response.data);
+                    setLoading(false);
+                }
+                else {
+                }
+            },
+                (error => {
+                }));
+        }
     }
 
 
-    if (!isUserAuthenticated) {
-        return <Redirect to='/unauthorised' />
+    if (isDecryptDataDone) {
+        if (!isUserAuthenticated) {
+            return <Redirect to='/unauthorised' />
+        }
+    }
+
+    if (isDecryptDataDone) {
+        if (UserRole !== 'User') {
+            return <Redirect to='/unauthorised' />
+        }
     }
 
 
