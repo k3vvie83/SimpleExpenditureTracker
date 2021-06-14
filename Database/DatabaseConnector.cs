@@ -93,7 +93,7 @@ namespace SimpleExpenditureTracker.Database
 
             try
             {
-                cmd.CommandText = "Select Password from SimpleDatabase.UserTable where UserLoginID = " + "'" + UserLoginID + "'";
+                cmd.CommandText = "Select Password from SimpleDatabase.UserTable where UserLoginID = " + "'".ToUpper() + UserLoginID + "'";
                 cmd.Prepare();
 
 
@@ -161,7 +161,7 @@ namespace SimpleExpenditureTracker.Database
 
             try
             {
-                cmd.CommandText = "Select UserUUID from SimpleDatabase.UserTable where UserLoginID = " + "'" + UserLoginID + "'";
+                cmd.CommandText = "Select UserUUID from SimpleDatabase.UserTable where UserLoginID = " + "'" + UserLoginID.ToUpper() + "'";
                 cmd.Prepare();
 
                 myQueryUserReader = cmd.ExecuteReader();
@@ -265,7 +265,7 @@ namespace SimpleExpenditureTracker.Database
             success = false;
             try
             {
-                cmd.CommandText = "Select Password from SimpleDatabase.UserTable where UserUUID = " + "'" + UserUUID + "'";
+                cmd.CommandText = "Select Password from SimpleDatabase.UserTable where UserUUID = " + "'" + UserUUID.ToUpper() + "'";
                 cmd.Prepare();
 
                 myChangePwdReader = cmd.ExecuteReader();
@@ -360,7 +360,7 @@ namespace SimpleExpenditureTracker.Database
                 cmd.CommandText = "INSERT INTO `SimpleDatabase`.`UserTable` " +
                    "(`UserUUID`, `UserFullName`, `UserLoginID`, `Password`, `Role`, `LastLogin`, `CreatedDT`) " +
                    "VALUES" +
-                   "('" + Guid.NewGuid().ToString() + "', '" + eo.UserFullName + "', '" + eo.UserLoginID + "', '" + eo.HashedPassword + "', '" + eo.Role + "', '" + DateTime.Now.ToString("yyyyMMddHHmmss") + "', '" + DateTime.Now.ToString("yyyyMMddHHmmss") + "');";
+                   "('" + Guid.NewGuid().ToString() + "', '" + eo.UserFullName + "', '" + eo.UserLoginID.ToUpper() + "', '" + eo.HashedPassword + "', '" + eo.Role + "', '" + DateTime.Now.ToString("yyyyMMddHHmmss") + "', '" + DateTime.Now.ToString("yyyyMMddHHmmss") + "');";
 
                 cmd.Prepare();
 

@@ -157,20 +157,28 @@ export function AddUser(props) {
             //if response is 200 HTTP OK
             if (response.status === 200) {
 
-                //Set info in Notification Bar
-                setUserFullNameInNoticeBar(UserFullName);
-                setUserLoginIDInNoticeBar(UserLoginID);
-                setRoleInNoticeBar(Role);
+                //console.log("response.status " + response.status);
+                //console.log("response.data " + response.data);
+                if (response.data === "Success") {
+                    //Set info in Notification Bar
+                    setUserFullNameInNoticeBar(UserFullName);
+                    setUserLoginIDInNoticeBar(UserLoginID);
+                    setRoleInNoticeBar(Role);
 
-                //Set Notification Bar Status
-                setNotificationSelection(2);
+                    //Set Notification Bar Status
+                    setNotificationSelection(2);
 
-                //Clear Form and Reset
-                setUserFullNameForm('');
-                setUserLoginIDForm('');
-                setPasswordForm('');
-                setReEnterPasswordForm('');
-                setRoleForm('User');
+                    //Clear Form and Reset
+                    setUserFullNameForm('');
+                    setUserLoginIDForm('');
+                    setPasswordForm('');
+                    setReEnterPasswordForm('');
+                    setRoleForm('User');
+                }
+                if (response.data === "UserExists") {
+                    //Set Notification Bar Status
+                    setNotificationSelection(6);
+                }
 
             }
             else {
@@ -234,6 +242,13 @@ export function AddUser(props) {
                 case 5: return (
 
                     <div className='error'><a> Password less than 8 characters! </a></div>
+
+                );
+                    break;
+
+                case 6: return (
+
+                    <div className='error'><a> User ID Exists! </a></div>
 
                 );
                     break;

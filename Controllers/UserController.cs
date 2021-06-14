@@ -103,18 +103,29 @@ namespace SimpleExpenditureTracker.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CreateUpdateUserObject obj)
         {
-            DatabaseConnector.DBReturnResult returnResult = DatabaseConnector.Instance.AddUser(obj);
+            string UserUUID = null;
 
-            Console.WriteLine("Returned returnResult = " + returnResult);
+            DatabaseConnector.DBReturnResult returnResult = DatabaseConnector.Instance.QueryUserUUID(obj.UserLoginID, ref UserUUID);
 
-            if (returnResult == DatabaseConnector.DBReturnResult.SUCCESS)
+            if (UserUUID == null)
             {
-                Console.WriteLine("QueryTotalExpenditureByUserController Success.");
 
-                return Ok("{Result: Success}");
+                DatabaseConnector.DBReturnResult returnResult1 = DatabaseConnector.Instance.AddUser(obj);
+
+                Console.WriteLine("Returned returnResult = " + returnResult1);
+
+                if (returnResult1 == DatabaseConnector.DBReturnResult.SUCCESS)
+                {
+                    Console.WriteLine("QueryTotalExpenditureByUserController Success.");
+
+                    return Ok("Success");
+                }
+                return StatusCode(400);
             }
-            return StatusCode(400);
-
+            else
+            {
+                return Ok("UserExists");
+            }
         }
     }
 
