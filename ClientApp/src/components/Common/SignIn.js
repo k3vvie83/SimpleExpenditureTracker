@@ -17,12 +17,12 @@ export function SignIn(props) {
     const [toHome, setToHome] = useState(false);
     const [notificationSelection, setNotificationSelection] = useState(0);
 
-    //const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
     const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
 
     const [isDecryptDataDone, setDecryptDataDone] = useState(false);
 
-    var isUserAuthenticated = false;
+    //var isUserAuthenticated = false;
 
     DecryptData();
 
@@ -47,7 +47,7 @@ export function SignIn(props) {
                 var role = decryptedData.Role;
                 var userUUID = decryptedData.UserUUID;
 
-                isAuthenticated = true;
+                setIsUserAuthenticated(true);
 
                 console.log("SignIn::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
 
@@ -55,7 +55,7 @@ export function SignIn(props) {
 
             }
             else {
-                isAuthenticated = false;
+                setIsUserAuthenticated(false);
                 setDecryptDataDone(true);
             }
         }
