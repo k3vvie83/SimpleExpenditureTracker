@@ -24,10 +24,6 @@ export function EnterExpenditure(props) {
 
     DecryptData();
 
-    //useEffect(() => {
-
-    //}, []);
-
     if (isDecryptDataDone) {
         if (!isUserAuthenticated) {
             return <Redirect to='/unauthorised' />

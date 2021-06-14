@@ -1,29 +1,76 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
 export function DeleteUser(props) {
 
-    var CurrentUserUUID = window.sessionStorage.getItem("UserUUID");
+    //var CurrentUserUUID = window.sessionStorage.getItem("UserUUID");
 
     const [AllUsersList, setAllUsersList] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const [UserUUID, SetUserUUID] = useState('');
+    //const [UserUUID, SetUserUUID] = useState('');
 
     const [notificationSelection, setNotificationSelection] = useState(0);
+    const [CurrentUserUUID, setCurrentUserUUID] = useState('');
 
-    useEffect(() => {
-        GetAllUser();
-    }, []);
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [UserRole, setUserRole] = useState('User');
+    const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
+    const [UserUUID, setUserUUID] = useState('');
 
-    if (!window.sessionStorage.getItem("isAuthenticated")) {
-        return <Redirect to='/unauthorised' />
+    const [isDecryptDataDone, setDecryptDataDone] = useState(false);
+
+
+    DecryptData();
+
+    if (isDecryptDataDone) {
+        if (!isUserAuthenticated) {
+            return <Redirect to='/unauthorised' />
+        }
     }
 
-    if (window.sessionStorage.getItem("Role").toString() != "Admin") {
-        return <Redirect to='/unauthorised' />
+    if (isDecryptDataDone) {
+        if (UserRole !== 'Admin') {
+            return <Redirect to='/unauthorised' />
+        }
     }
+
+
+    function DecryptData() {
+        if (!isDecryptDataDone) {
+
+            var EncryptedData = window.sessionStorage.getItem("Data");
+            var role = '';
+
+            if (EncryptedData != null) {
+                var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+                var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+                SetDecryptedDataArray(decryptedData);
+                var role = decryptedData.Role;
+                var userUUID = decryptedData.UserUUID;
+
+                setIsUserAuthenticated(true);
+                setUserRole(role);
+                setCurrentUserUUID(userUUID);
+
+                setDecryptDataDone(true);
+                //console.log("Home::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
+                //console.log("Home::setUserRole " + new Date().getTime() + " " + role);
+                //console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
+                GetAllUser();
+
+            }
+            else {
+                setIsUserAuthenticated(false);
+                setDecryptDataDone(true);
+            }
+
+        }
+    }
+
 
     const mySubmitHandler = (event) => {
 
@@ -75,16 +122,18 @@ export function DeleteUser(props) {
 
     function GetAllUser() {
 
-        SetUserUUID('');
+        if (isUserAuthenticated) {
+            setUserUUID('');
 
-        const UserUUIDObj = { UserUUID };
+            const UserUUIDObj = { UserUUID };
 
-        axios.post('/api/getallusers', UserUUIDObj).then(response => {
+            axios.post('/api/getallusers', UserUUIDObj).then(response => {
 
-            setAllUsersList(response.data);
+                setAllUsersList(response.data);
 
-            setLoading(false);
-        });
+                setLoading(false);
+            });
+        }
     }
 
 
@@ -108,7 +157,7 @@ export function DeleteUser(props) {
                         <tbody>
                             {AllUsersList.map(AllUsersList =>
                                 <tr key={AllUsersList.UserUUID}>
-                                    <td><input type="radio" value={AllUsersList.UserUUID} name="DelUser" onChange={e => SetUserUUID(e.target.value)} /></td>
+                                    <td><input type="radio" value={AllUsersList.UserUUID} name="DelUser" onChange={e => setUserUUID(e.target.value)} /></td>
                                     <td>{AllUsersList.UserFullName}</td>
                                     <td>{AllUsersList.UserLoginID}</td>
                                     <td>{AllUsersList.Role}</td>
@@ -126,9 +175,7 @@ export function DeleteUser(props) {
     }
 
 
-    let contents = loading
-        ? <p><em>Loading...</em></p>
-        : renderUserTable(AllUsersList);
+    let contents = loading ? <p><em>Loading...</em></p> : renderUserTable(AllUsersList);
 
     return (
         <div>

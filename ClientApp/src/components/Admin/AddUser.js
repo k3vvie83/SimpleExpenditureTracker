@@ -2,6 +2,7 @@
 import { Redirect } from 'react-router';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
 export function AddUser(props) {
 
@@ -17,16 +18,57 @@ export function AddUser(props) {
 
     const [notificationSelection, setNotificationSelection] = useState(0);
 
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [UserRole, setUserRole] = useState('User');
+    const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
+    const [UserUUID, setUserUUID] = useState('');
 
-    useEffect(() => {
-    }, []);
+    const [isDecryptDataDone, setDecryptDataDone] = useState(false);
 
-    if (!window.sessionStorage.getItem("isAuthenticated")) {
-        return <Redirect to='/unauthorised' />
+
+    DecryptData();
+
+    if (isDecryptDataDone) {
+        if (!isUserAuthenticated) {
+            return <Redirect to='/unauthorised' />
+        }
     }
 
-    if (window.sessionStorage.getItem("Role").toString() != "Admin") {
-        return <Redirect to='/unauthorised' />
+    if (isDecryptDataDone) {
+        if (UserRole !== 'Admin') {
+            return <Redirect to='/unauthorised' />
+        }
+    }
+
+    function DecryptData() {
+        if (!isDecryptDataDone) {
+
+            var EncryptedData = window.sessionStorage.getItem("Data");
+            var role = '';
+
+            if (EncryptedData != null) {
+                var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+                var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+                SetDecryptedDataArray(decryptedData);
+                var role = decryptedData.Role;
+                var userUUID = decryptedData.UserUUID;
+
+                setIsUserAuthenticated(true);
+                setUserRole(role);
+                setUserUUID(userUUID);
+
+                setDecryptDataDone(true);
+                //console.log("Home::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
+                //console.log("Home::setUserRole " + new Date().getTime() + " " + role);
+                //console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
+            }
+            else {
+                setIsUserAuthenticated(false);
+                setDecryptDataDone(true);
+            }
+
+        }
     }
 
     const mySubmitHandler = (event) => {
