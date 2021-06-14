@@ -25,7 +25,7 @@ To Build (Application):
 
 To build the application from source code and compile it into containers, follow the below instructions. 
 
-***Alternatively, you can also do a docker pull from `kevinchan83/simple_expenditure_tracker:0.1`***
+***Alternatively, you can also do a docker pull from `kevinchan83/simple_expenditure_tracker:1.0`***
 
 Linux (Ubuntu)
 ---------------
@@ -33,7 +33,7 @@ Linux (Ubuntu)
 - Install NodeJS, Refer to guide (https://github.com/nodesource/distributions/blob/master/README.md#debinstall)
 - Pull source code from GitHub ***`k3vvie83/SimpleExpenditureTracker`*** (https://github.com/k3vvie83/SimpleExpenditureTracker)
 - Go to terminal, unzip package and change directory to the unzip package
-- Type `sudo docker build -t simple_expenditure_tracker:0.1 .` 
+- Type `sudo docker build -t simple_expenditure_tracker:1.0 .` 
 - Enter SUDO password
 - Wait for image build to finish
 - Type `sudo docker images`, you shoud see the the image created under *REPOSITORY*
@@ -44,7 +44,7 @@ Windows
 - Download and install NodeJS for Windows (https://nodejs.org/dist/v16.3.0/node-v16.3.0-x86.msi)
 - Pull source code from GitHub ***`k3vvie83/SimpleExpenditureTracker`*** (https://github.com/k3vvie83/SimpleExpenditureTracker)
 - Go to console, unzip package and change directory to the unzip package
-- Type `docker build -t simple_expenditure_tracker:0.1 .`
+- Type `docker build -t simple_expenditure_tracker:1.0 .`
 - Wait for image build to finish
 - Type `docker images`, you shoud see the the image created under *REPOSITORY*
 
@@ -80,25 +80,25 @@ To Start (Application):
 Linux (Ubuntu)
 ---------------
 - To start application from build:
-  - From terminal, type `sudo docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:0.1` to start the container image
+  - From terminal, type `sudo docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:1.0` to start the container image
   - Verify the container is running by typing `sudo docker ps`, you should see the process running with the corresponding *CONTAINER ID*
   
   **Alternatively**
   
 - To start application from docker pull:
-  - From terminal, type `sudo docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:0.1` to pull the container from docker hub and then start the container image
+  - From terminal, type `sudo docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:1.0` to pull the container from docker hub and then start the container image
   - Verify the container is running by typing `sudo docker ps`, you should see the process running with the corresponding *CONTAINER ID*
 
 Windows
 -------
 - To start application from build:
-  - From console, type `docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:0.1` to start the container image
+  - From console, type `docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:1.0` to start the container image
   - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
   
   **Alternatively**
   
 - To start application from docker pull:
-  - From console, type `docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:0.1` to pull the container from docker hub and then start the container image
+  - From console, type `docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:1.0` to pull the container from docker hub and then start the container image
   - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
 
 
