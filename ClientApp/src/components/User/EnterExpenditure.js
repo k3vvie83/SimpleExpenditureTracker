@@ -20,38 +20,46 @@ export function EnterExpenditure(props) {
     const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
     const [UserUUID, setUserUUID] = useState('');
 
-    useEffect(() => {
-        DecryptData();
-    }, []);
+    const [isDecryptDataDone, setDecryptDataDone] = useState(false);
 
-    function DecryptData() {
-        var EncryptedData = window.sessionStorage.getItem("Data");
-        var isAuthenticated = false;
-        var role = '';
+    DecryptData();
 
-        if (EncryptedData != null) {
-            var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
-            var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    //useEffect(() => {
 
-            SetDecryptedDataArray(decryptedData);
-            var isAuthenticated = decryptedData.isAuthenticated;
-            var role = decryptedData.Role;
-            var userUUID = decryptedData.UserUUID;
-
-            setIsUserAuthenticated(isAuthenticated);
-            setUserRole(role);
-            setUserUUID(userUUID);
-
-            console.log("Home::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
-            console.log("Home::setUserRole " + new Date().getTime() + " " + role);
-            console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
-        }
-
-    }
+    //}, []);
 
     if (!isUserAuthenticated) {
         return <Redirect to='/unauthorised' />
-    }   
+    }
+
+    function DecryptData() {
+        if (!isDecryptDataDone) {
+            var EncryptedData = window.sessionStorage.getItem("Data");
+            var isAuthenticated = false;
+            var role = '';
+
+            if (EncryptedData != null) {
+                var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+                var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+                SetDecryptedDataArray(decryptedData);
+                var isAuthenticated = decryptedData.isAuthenticated;
+                var role = decryptedData.Role;
+                var userUUID = decryptedData.UserUUID;
+
+                setIsUserAuthenticated(isAuthenticated);
+                setUserRole(role);
+                setUserUUID(userUUID);
+
+                console.log("Home::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
+                console.log("Home::setUserRole " + new Date().getTime() + " " + role);
+                console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
+            }
+        }
+        setDecryptDataDone(true);
+    }
+
+
 
     const mySubmitHandler = (event) => {
 
