@@ -4,16 +4,19 @@ A Simple Expenditure Tracker Application
 ----
 About
 ===
-- Application is created using Visio 2019.
+- Application is created using Visio 2019 (Version 16.10.0)
 - Frontend
-  - ReactJS
-  - NodeJS
+  - ReactJS 
+  - NodeJS 
+    - npm version : 7.15.1
+    - node version : 16.3.0
   - axios@0.21.1
   - crypto-js@4.0.0
   - js-sha256@0.9.0
 - Backend
-  - .Net Core 5
-  - MySql.Data Version 8.0.25 (MySql.Data.MySqlClient .Net Core Class Library)
+  - .Net 5.0
+  - NuGet Package
+    - MySql.Data Version 8.0.25 (MySql.Data.MySqlClient .Net Core Class Library)
 - Database
   - MySQL Community Server (Version 8.0.25)
 
