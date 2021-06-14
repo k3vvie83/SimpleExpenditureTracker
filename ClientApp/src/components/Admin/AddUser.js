@@ -26,6 +26,7 @@ export function AddUser(props) {
     const [UserFullName, setUserFullName] = useState('');
     const [UserRole, setUserRole] = useState('User');
     const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+	const [LoggedInTimestamp, setLoggedInTimestamp] = useState(0);
     const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
 
 
@@ -85,6 +86,9 @@ export function AddUser(props) {
 
                 //Set User Role
                 setUserRole(decryptedData.Role);
+
+                //Set Logged in Timestamp
+                setLoggedInTimestamp(decryptedData.Timestamp)
 
                 //Set User Auth to True
                 setIsUserAuthenticated(true);
