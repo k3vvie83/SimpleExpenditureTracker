@@ -6,10 +6,8 @@ import CryptoJS from 'crypto-js';
 export function SignOut(props) {
 
     var intervalID = 0;
-    //var UserFullNameVar = window.sessionStorage.getItem("UserFullName");
-    const [UserFullName, setUserFullName] = useState('');
 
-    //window.sessionStorage.clear();
+    const [UserFullName, setUserFullName] = useState('');
 
     const [countdown, setCountdown] = useState(3);
     const [redirectToSignInPage, setRedirectToSignInPage] = useState(false);
@@ -39,7 +37,6 @@ export function SignOut(props) {
         }
 
         if (countdown === 0) {
-            //clearTimeout(intervalID);
             redirectToSignInPage(true);
         }
 
@@ -56,17 +53,19 @@ export function SignOut(props) {
             SetDecryptedDataArray(decryptedData);
             UserFullName = decryptedData.UserFullName;
             setUserFullName(UserFullName);
-            console.log("SignOut::UserFullName " + new Date().getTime() + " " + UserFullName);
+            //console.log("SignOut::UserFullName " + new Date().getTime() + " " + UserFullName);
         }
 
     }
 
     function countdownFn() {
 
-        if (countdown > 1)
+        if (countdown > 1) {
             setCountdown(countdown - 1)
-        else
+        }
+        else {
             setRedirectToSignInPage(true);
+        }
 
     }
 

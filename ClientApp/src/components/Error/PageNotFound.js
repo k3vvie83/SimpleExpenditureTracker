@@ -25,14 +25,12 @@ export function PageNotFound(props) {
         }
 
         if (countdown === 0) {
-            //clearTimeout(intervalID);
             setRedirectToHome(true);
         }
 
     }
 
     if (redirectToHome) {
-
         return <Redirect to='/' />
     }
 

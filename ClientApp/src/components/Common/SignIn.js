@@ -35,9 +35,8 @@ export function SignIn(props) {
 
     function DecryptData() {
         if (!isDecryptDataDone) {
+
             var EncryptedData = window.sessionStorage.getItem("Data");
-            //var isAuthenticated = false;
-            //var role = '';
 
             if (EncryptedData != null) {
                 var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
@@ -48,24 +47,14 @@ export function SignIn(props) {
                 var role = decryptedData.Role;
                 var userUUID = decryptedData.UserUUID;
 
-                //UserUUID = userUUID;
-                //setIsUserAuthenticated(true);
-                //setUserRole(role);
                 isAuthenticated = true;
 
                 console.log("SignIn::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
-                //console.log("Home::setUserRole " + new Date().getTime() + " " + role);
-                //console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
 
                 setDecryptDataDone(true);
 
-                //return <Redirect to='/home' />
-
-                //getTotalExpenditure(userUUID);
-                // a();
             }
             else {
-                //setIsUserAuthenticated(false);
                 isAuthenticated = false;
                 setDecryptDataDone(true);
             }
@@ -79,8 +68,10 @@ export function SignIn(props) {
         window.sessionStorage.setItem("UserUUID", UserUUID);
         window.sessionStorage.setItem("UserFullName", UserFullName);
         window.sessionStorage.setItem("Role", Role);
-        window.sessionStorage.setItem("Timestamp", Timestamp);
+
+
         window.sessionStorage.setItem("Data", EncryptedData);
+        window.sessionStorage.setItem("Timestamp", Timestamp);
 
         return <Redirect to='/home' />
     }
@@ -112,7 +103,7 @@ export function SignIn(props) {
 
                 const data = { isAuthenticated, UserUUID, UserFullName, Role, TimestampLocal }
 
-                console.log("Data Before Encryption: " + JSON.stringify(data));
+                //console.log("Data Before Encryption: " + JSON.stringify(data));
 
                 var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'my-secret-key@123').toString();
 

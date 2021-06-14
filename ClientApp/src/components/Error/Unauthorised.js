@@ -25,14 +25,11 @@ export function Unauthorised(props) {
         }
 
         if (countdown === 0) {
-           // clearInterval(intervalID);
             setRedirectToHome(true);
         }
-
     }
 
     if (redirectToHome) {
-
         return <Redirect to='/' />
     }
 
@@ -43,7 +40,6 @@ export function Unauthorised(props) {
             <h3>You will be redirected within {countdown} seconds...</h3>
         </div>
     );
-
 
 }
 

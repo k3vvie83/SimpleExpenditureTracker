@@ -41,13 +41,12 @@ export function Home(props) {
                 var role = decryptedData.Role;
                 var userUUID = decryptedData.UserUUID;
 
-                //UserUUID = userUUID;
                 setIsUserAuthenticated(true);
                 setUserRole(role);
 
-                console.log("Home::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
-                console.log("Home::setUserRole " + new Date().getTime() + " " + role);
-                console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
+                //console.log("Home::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
+                //console.log("Home::setUserRole " + new Date().getTime() + " " + role);
+                //console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
 
                 setDecryptDataDone(true);
 
@@ -64,7 +63,7 @@ export function Home(props) {
 
     function getTotalExpenditure(UserUUID) {
 
-        console.log("getTotalExpenditure");
+        //console.log("getTotalExpenditure");
         const UserUUIDObj = { UserUUID };
 
         if (UserUUIDObj.UserUUID != '') {
@@ -110,7 +109,7 @@ export function Home(props) {
         );
     }
 
-    console.log("isUserAuthenticated " + isUserAuthenticated)
+    //console.log("isUserAuthenticated " + isUserAuthenticated)
     if (!isUserAuthenticated) {
         return <Redirect to='/unauthorised' />
     }
