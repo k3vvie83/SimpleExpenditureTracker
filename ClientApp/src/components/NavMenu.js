@@ -6,6 +6,7 @@ import CryptoJS from 'crypto-js';
 
 export function NavMenu(props) {
 
+    //Check Auth Timer Var
     var intervalID = 0;
     const [collapsed, setCollapsed] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -27,6 +28,8 @@ export function NavMenu(props) {
         var isAdmin = '';
 
         if (EncryptedData != null) {
+
+            //Decrypt Data
             var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
             var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
@@ -38,24 +41,24 @@ export function NavMenu(props) {
         }
 
         if (isAuthenticated) {
+
             setIsAuthenticated(true);
         }
         else {
+
             setIsAuthenticated(false);
         }
 
-        //var isAdmin = window.sessionStorage.getItem("Role");
-
-
         if (isAdmin == 'Admin') {
+
             setIsAdmin(true);
         }
         else {
+
             setIsAdmin(false);
         }
 
     }
-
 
 
     function toggleNavbar() {
@@ -73,7 +76,7 @@ export function NavMenu(props) {
                             {!isAuthenticated ? <NavItem><NavLink tag={Link} className="text-dark" to="/">Sign In</NavLink></NavItem> : ""}
                             <NavItem><NavLink tag={Link} className="text-dark" to="/about">About</NavLink></NavItem>
                             {isAuthenticated ? <NavItem><NavLink tag={Link} className="text-dark" to="/home">Home</NavLink></NavItem> : ""}
-                            {isAuthenticated && !isAdmin ? <NavItem><NavLink tag={Link} className="text-dark" to="/enterexpenditure">Enter Expenditure</NavLink></NavItem> : ""}
+                            {isAuthenticated && !isAdmin ? <NavItem><NavLink tag={Link} className="text-dark" to="/addexpenditure">Add Expenditure</NavLink></NavItem> : ""}
                             {isAuthenticated && !isAdmin ? <NavItem><NavLink tag={Link} className="text-dark" to="/queryexpenditure">Query Expenditure</NavLink></NavItem> : ""}
                             {isAuthenticated && isAdmin ? <NavItem><NavLink tag={Link} className="text-dark" to="/adduser">Add User</NavLink></NavItem> : ""}
                             {isAuthenticated && isAdmin ? <NavItem><NavLink tag={Link} className="text-dark" to="/deleteuser">Delete User</NavLink></NavItem> : ""}

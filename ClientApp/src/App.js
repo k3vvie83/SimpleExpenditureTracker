@@ -11,7 +11,7 @@ import { SignOut } from './components/Common/SignOut';
 import { About } from './components/Common/About';
 import { ChangePassword } from "./components/Common/ChangePassword";
 
-import { EnterExpenditure } from "./components/User/EnterExpenditure";
+import { AddExpenditure } from "./components/User/AddExpenditure";
 import { QueryExpenditure } from "./components/User/QueryExpenditure";
 
 import { AddUser } from "./components/Admin/AddUser";
@@ -24,9 +24,6 @@ import './custom.css'
 
 export default function App(props) {
 
-    useEffect(() => {
-    }, []);
-
     return (
         <Router>
             <Layout>
@@ -34,7 +31,7 @@ export default function App(props) {
                     <Route exact path='/' component={SignIn} />
                     <Route path='/about' component={About} />
                     <Route path='/home' component={Home} />
-                    <Route path='/enterexpenditure' component={EnterExpenditure} />
+                    <Route path='/addexpenditure' component={AddExpenditure} />
                     <Route path='/queryexpenditure' component={QueryExpenditure} />
                     <Route path='/changepassword' component={ChangePassword} />
                     <Route path='/adduser' component={AddUser} />

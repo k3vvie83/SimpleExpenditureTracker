@@ -3,66 +3,104 @@ import { Redirect } from 'react-router';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
-export function EnterExpenditure(props) {
+export function AddExpenditure(props) {
 
+    //Var for Add Expenditure Form
     const [DateOfExpenditure, setDateOfExpenditure] = useState('');
     const [Description, setDescription] = useState('');
     const [AmountSpent, setAmountSpent] = useState('');
     const [Remarks, setRemarks] = useState('');
+
+    //Var for Notification Bar display
     const [DateOfExpenditureInNoticeBar, setDateOfExpenditureInNoticeBar] = useState('');
     const [DescriptionInNoticeBar, setDescriptionInNoticeBar] = useState('');
     const [AmountSpentInNoticeBar, setAmountSpentInNoticeBar] = useState('');
     const [RemarksInNoticeBar, setRemarksInNoticeBar] = useState('');
+
+    //Notfication Bar Switch Case Selection
     const [notificationSelection, setNotificationSelection] = useState(0);
 
-    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
-    const [UserRole, setUserRole] = useState('User');
-    const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
+    //Get Session Storage Data
     const [UserUUID, setUserUUID] = useState('');
+    const [UserFullName, setUserFullName] = useState('');
+    const [UserRole, setUserRole] = useState('User');
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [LoggedInTimestamp, setLoggedInTimestamp] = useState(0);
+    const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
 
+
+    //Flag for DecryptData()
     const [isDecryptDataDone, setDecryptDataDone] = useState(false);
 
+
+    //Run Decrypt Data Function
     DecryptData();
 
+    //if Decrypt Data and User is NOT auth, Redirect to 401 page
     if (isDecryptDataDone) {
+
         if (!isUserAuthenticated) {
+
             return <Redirect to='/unauthorised' />
+
         }
+
     }
 
+    //if Decrypt Data and User NOT User, Redirect to 401 page
     if (isDecryptDataDone) {
+
         if (UserRole !== 'User') {
+
             return <Redirect to='/unauthorised' />
+
         }
+
     }
 
+    //Decrypt Session Storage Data Function
     function DecryptData() {
+
+        //If Decrypt Data is not Done, Then Proceed, Else Skip
         if (!isDecryptDataDone) {
 
+            //Get Encrypted Dat from Session Storage.
             var EncryptedData = window.sessionStorage.getItem("Data");
-            //var isAuthenticated = false;
-            var role = '';
 
+            // If Data is not NULL
             if (EncryptedData != null) {
+
+                //Decrypt Data
                 var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
                 var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
+                //Set Decrypted Data into Array
                 SetDecryptedDataArray(decryptedData);
-                //var isAuthenticated = decryptedData.isAuthenticated;
-                var role = decryptedData.Role;
-                var userUUID = decryptedData.UserUUID;
 
+                //Set User UUID
+                setUserUUID(decryptedData.UserUUID);
+
+                //Set User Full Name
+                setUserFullName(decryptedData.UserFullName);
+
+                //Set User Role
+                setUserRole(decryptedData.Role);
+
+                //Set Logged in Timestamp
+                setLoggedInTimestamp(decryptedData.Timestamp)
+
+                //Set User Auth to True
                 setIsUserAuthenticated(true);
-                setUserRole(role);
-                setUserUUID(userUUID);
 
+                //Set Decryption Flag Done
                 setDecryptDataDone(true);
-                //console.log("Home::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
-                //console.log("Home::setUserRole " + new Date().getTime() + " " + role);
-                //console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
             }
             else {
+
+                //Set User Auth to False
                 setIsUserAuthenticated(false);
+
+                //Set Decryption Flag Done
                 setDecryptDataDone(true);
             }
 
@@ -70,48 +108,64 @@ export function EnterExpenditure(props) {
     }
 
 
-
+    //Form Submit Handler
     const mySubmitHandler = (event) => {
 
         event.preventDefault();
 
+        //Check NULL fields
         if (!DateOfExpenditure || !Description || !AmountSpent) {
+
             setNotificationSelection(3);
+
             return;
         }
 
+        //Check Amount entered is Numeric
         if (isNaN(AmountSpent)) {
+
             setNotificationSelection(4);
+
             return;
         }
 
+        //Create New Expenditure JSON object
         const NewExpenditureInfo = { UserUUID, DateOfExpenditure, Description, AmountSpent, Remarks };
 
+        //Call Backend to create new Expenditure
         axios.post('/api/createexpenditure', NewExpenditureInfo).then(response => {
 
+
+            //if response is 200 HTTP OK
             if (response.status === 200) {
 
-
-                setNotificationSelection(2);
-
+                //Set info in Notification Bar
                 setDescriptionInNoticeBar(Description);
                 setRemarksInNoticeBar(Remarks);
                 setAmountSpentInNoticeBar(AmountSpent);
                 setDateOfExpenditureInNoticeBar(DateOfExpenditure);
 
+
+                //Set Notification Bar Status
+                setNotificationSelection(2);
+
+                //Clear Form and Reset
                 setDescription('');
                 setRemarks('');
                 setAmountSpent('');
                 setDateOfExpenditure(0);
+
             }
             else {
+
+                //Set Notification Bar Status
                 setNotificationSelection(1);
             }
         },
             (error => {
+                //Set Notification Bar Status
                 setNotificationSelection(1);
             }));
-
 
     }
 
@@ -188,4 +242,4 @@ export function EnterExpenditure(props) {
 }
 
 
-export default EnterExpenditure;
+export default AddExpenditure;

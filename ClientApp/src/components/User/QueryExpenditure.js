@@ -5,60 +5,102 @@ import CryptoJS from 'crypto-js';
 
 export function QueryExpenditure(props) {
 
+    //Expenditure List Returned from Query
     const [expenditure, setExpenditure] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    //Get Session Storage Data
+    const [UserUUID, setUserUUID] = useState('');
+    const [UserFullName, setUserFullName] = useState('');
     const [UserRole, setUserRole] = useState('User');
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [LoggedInTimestamp, setLoggedInTimestamp] = useState(0);
     const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
-    //const [UserUUID, setUserUUID] = useState('');
 
+    //Flag for DecryptData()
     const [isDecryptDataDone, setDecryptDataDone] = useState(false);
 
-    var UserUUID = '';
-    //var isUserAuthenticated = false  ;
+    //var UserUUID = '';
 
 
-    //useEffect(() => {
-    if (!isDecryptDataDone) {
-        DecryptData();
-        /*populateExpenses();*/
-        //}, []);
+    //Run Decrypt Data Function
+    DecryptData();
+
+    //if Decrypt Data and User is NOT auth, Redirect to 401 page
+    if (isDecryptDataDone) {
+
+        if (!isUserAuthenticated) {
+
+            return <Redirect to='/unauthorised' />
+
+        }
+
     }
 
-//    if (isDecryptDataDone && isUserAuthenticated) {
-//    populateExpenses();
-//}
+    //if Decrypt Data and User NOT User, Redirect to 401 page
+    if (isDecryptDataDone) {
 
+        if (UserRole !== 'User') {
 
+            return <Redirect to='/unauthorised' />
 
+        }
+
+    }
+
+    //Decrypt Session Storage Data Function
     function DecryptData() {
+
+        //If Decrypt Data is not Done, Then Proceed, Else Skip
         if (!isDecryptDataDone) {
+
+            //Get Encrypted Dat from Session Storage.
             var EncryptedData = window.sessionStorage.getItem("Data");
 
+            // If Data is not NULL
             if (EncryptedData != null) {
+
+                //Decrypt Data
                 var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
                 var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-                //var isAuthenticated = decryptedData.isAuthenticated;
 
+                //Set Decrypted Data into Array
                 SetDecryptedDataArray(decryptedData);
-                //setUserUUID(decryptedData.UserUUID);
-                UserUUID = decryptedData.UserUUID;
-                setIsUserAuthenticated(true);
+
+                //Set User UUID
+                setUserUUID(decryptedData.UserUUID);
+
+                //Set User Full Name
+                setUserFullName(decryptedData.UserFullName);
+
+                //Set User Role
                 setUserRole(decryptedData.Role);
+
+                //Set Logged in Timestamp
+                setLoggedInTimestamp(decryptedData.Timestamp)
+
+                //Set User Auth to True
+                setIsUserAuthenticated(true);
+
+                //Set Decryption Flag Done
                 setDecryptDataDone(true);
 
-                populateExpenses();
+                //Populate User Expenses
+                populateExpenses(decryptedData.UserUUID);
             }
             else {
+
+                //Set User Auth to False
                 setIsUserAuthenticated(false);
+
+                //Set Decryption Flag Done
                 setDecryptDataDone(true);
             }
         }
     }
 
 
-
+    //Render Query Table
     function renderQueryTable(expenditure) {
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
@@ -90,11 +132,13 @@ export function QueryExpenditure(props) {
         );
     }
 
-    function populateExpenses() {
+    //Populate Expense of User
+    function populateExpenses(UserUUID) {
 
-        const UserUUIDObj = { UserUUID };
+        if (UserUUID != '') {
 
-        if (UserUUIDObj != '') {
+            const UserUUIDObj = { UserUUID };
+
             axios.post('/api/populatedetailedpenditurebyuser', UserUUIDObj).then(response => {
 
                 if (response.status === 200) {
@@ -109,20 +153,6 @@ export function QueryExpenditure(props) {
                 }));
         }
     }
-
-
-    if (isDecryptDataDone) {
-        if (!isUserAuthenticated) {
-            return <Redirect to='/unauthorised' />
-        }
-    }
-
-    if (isDecryptDataDone) {
-        if (UserRole !== 'User') {
-            return <Redirect to='/unauthorised' />
-        }
-    }
-
 
     let contents = loading ? <p><em>Loading...</em></p> : renderQueryTable(expenditure);
 
