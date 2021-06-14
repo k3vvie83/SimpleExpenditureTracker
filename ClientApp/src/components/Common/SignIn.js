@@ -2,22 +2,75 @@
 import { Redirect } from 'react-router';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
+
 
 export function SignIn(props) {
-
-    useEffect(() => {
-    }, []);
 
     const [UserLoginID, setUserLoginID] = useState('');
     const [Password, setPassword] = useState('');
     const [UserUUID, setUserUUID] = useState('');
     const [UserFullName, setUserFullName] = useState('');
     const [Role, setRole] = useState('');
+    const [Timestamp, setTimestamp] = useState('');
+    const [EncryptedData, setEncryptedData] = useState('');
     const [toHome, setToHome] = useState(false);
     const [notificationSelection, setNotificationSelection] = useState(0);
 
-    if (window.sessionStorage.getItem("isAuthenticated")) {
-        return <Redirect to='/home' />
+    //const [isUserAuthenticated, setIsUserAuthenticated] = useState(true);
+    const [decryptedDataArray, SetDecryptedDataArray] = useState([]);
+
+    const [isDecryptDataDone, setDecryptDataDone] = useState(false);
+
+    var isUserAuthenticated = false;
+
+    DecryptData();
+
+    if (isDecryptDataDone) {
+        if (isUserAuthenticated) {
+            return <Redirect to='/home' />
+        }
+    }
+
+
+    function DecryptData() {
+        if (!isDecryptDataDone) {
+            var EncryptedData = window.sessionStorage.getItem("Data");
+            //var isAuthenticated = false;
+            //var role = '';
+
+            if (EncryptedData != null) {
+                var bytes = CryptoJS.AES.decrypt(EncryptedData, 'my-secret-key@123');
+                var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+                SetDecryptedDataArray(decryptedData);
+                var isAuthenticated = decryptedData.isAuthenticated;
+                var role = decryptedData.Role;
+                var userUUID = decryptedData.UserUUID;
+
+                //UserUUID = userUUID;
+                //setIsUserAuthenticated(true);
+                //setUserRole(role);
+                isAuthenticated = true;
+
+                console.log("SignIn::setIsUserAuthenticated " + new Date().getTime() + " " + isAuthenticated);
+                //console.log("Home::setUserRole " + new Date().getTime() + " " + role);
+                //console.log("Home::setUserUUID " + new Date().getTime() + " " + userUUID);
+
+                setDecryptDataDone(true);
+
+                //return <Redirect to='/home' />
+
+                //getTotalExpenditure(userUUID);
+                // a();
+            }
+            else {
+                //setIsUserAuthenticated(false);
+                isAuthenticated = false;
+                setDecryptDataDone(true);
+            }
+        }
+
     }
 
     if (toHome) {
@@ -26,7 +79,8 @@ export function SignIn(props) {
         window.sessionStorage.setItem("UserUUID", UserUUID);
         window.sessionStorage.setItem("UserFullName", UserFullName);
         window.sessionStorage.setItem("Role", Role);
-        window.sessionStorage.setItem("Timestamp", new Date().getTime());
+        window.sessionStorage.setItem("Timestamp", Timestamp);
+        window.sessionStorage.setItem("Data", EncryptedData);
 
         return <Redirect to='/home' />
     }
@@ -48,9 +102,26 @@ export function SignIn(props) {
 
             if (response.status === 200) {
 
+
+                var isAuthenticated = true;
+                var UserUUID = response.data.UserUUID;
+                var UserFullName = response.data.UserFullName;
+                var Role = response.data.Role;
+                var TimestampLocal = new Date().getTime();
+
+
+                const data = { isAuthenticated, UserUUID, UserFullName, Role, TimestampLocal }
+
+                console.log("Data Before Encryption: " + JSON.stringify(data));
+
+                var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'my-secret-key@123').toString();
+
+                setEncryptedData(ciphertext);
+
                 setUserUUID(response.data.UserUUID);
                 setUserFullName(response.data.UserFullName);
                 setRole(response.data.Role);
+                setTimestamp(TimestampLocal);
 
                 setToHome(true)
             }
