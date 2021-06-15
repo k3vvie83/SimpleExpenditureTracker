@@ -182,7 +182,13 @@ export function AddExpenditure(props) {
             case 2: return (
                 <div className='success'>
                     <p><a> Record Entered Successfully! </a></p>
-                    <p> Date : {DateOfExpenditureInNoticeBar}</p>
+                    <p> Date : {
+                        new Date(Date.parse(DateOfExpenditureInNoticeBar) - ((new Date()).getTimezoneOffset() * 60000)).toISOString().substr(8, 2)
+                            + "-"
+                        + new Date(Date.parse(DateOfExpenditureInNoticeBar) - ((new Date()).getTimezoneOffset() * 60000)).toISOString().substr(5, 2)
+                            + "-"
+                        + new Date(Date.parse(DateOfExpenditureInNoticeBar) - ((new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 4)
+                    }</p>
                     <p> Description : {DescriptionInNoticeBar}</p>
                     <p> Amount Spent : {parseFloat(AmountSpentInNoticeBar).toFixed(2)}</p>
                     <p> Remarks : {RemarksInNoticeBar}</p>

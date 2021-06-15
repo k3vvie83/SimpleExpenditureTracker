@@ -118,11 +118,11 @@ export function QueryExpenditure(props) {
                     {expenditure.map(expenditure =>
                         <tr key={expenditure.ExpensesUUID}>
                             <td>{expenditure.ExpensesUUID}</td>
-                            <td>{new Date(Date.parse(expenditure.DateOfExpenditure)).toISOString().substr(8, 2)
+                            <td>{new Date(Date.parse(expenditure.DateOfExpenditure) - ((new Date()).getTimezoneOffset() * 60000)).toISOString().substr(8, 2)
                                 + "-"
-                                + new Date(Date.parse(expenditure.DateOfExpenditure)).toISOString().substr(5, 2)
+                                + new Date(Date.parse(expenditure.DateOfExpenditure) - ((new Date()).getTimezoneOffset() * 60000)).toISOString().substr(5, 2)
                                 + "-"
-                                + new Date(Date.parse(expenditure.DateOfExpenditure)).toISOString().substr(0, 4)}</td>
+                                + new Date(Date.parse(expenditure.DateOfExpenditure) - ((new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 4)}</td>
                             <td>{expenditure.Description}</td>
                             <td>$ {parseFloat(expenditure.AmountSpent).toFixed(2)}</td>
                             <td>{expenditure.Remarks}</td>
