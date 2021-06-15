@@ -54,7 +54,7 @@ Database:
 Do a docker pull for latest MySQL Version and initialise the MySQL DB from the SQL script provided in the source code package.
 
 - From console/terminal, type `docker run -d --name=database --env="MYSQL_ROOT_PASSWORD=<root_password>" --env="MYSQL_DATABASE=SimpleDatabase" mysql:latest` to pull the MySQL latest image from docker hub. [***Remember to change the MYSQL_ROOT_PASSWORD***]
-- Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
+- Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *'CONTAINER ID'*
 - Copy the SQL script into the docker container. Type `docker cp Simple_Expenditure_App_SQL_Schema.sql <ContainerID>:/`
 - Login to the container and execute the script. Type `docker exec -it <ContainerID> bash`
 - Type `mysql -u root -p < /Simple_Expenditure_App_SQL_Schema.sql`
@@ -67,13 +67,13 @@ To run the application in docker, follow the below steps
 
 - To start application from build:
   - From console/terminal, type `docker run -d -p 80:80 --name application --link database:database simple_expenditure_tracker:1.0` to start the container image
-  - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
+  - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *'CONTAINER ID'*
   
   **Alternatively**
   
 - To start application from docker pull:
   - From console/terminal, type `docker run -d -p 80:80 --name application --link database:database kevinchan83/simple_expenditure_tracker:1.0` to pull the container from docker hub and then start the container image
-  - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
+  - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *'CONTAINER ID'*
 
 
 How to use the application
