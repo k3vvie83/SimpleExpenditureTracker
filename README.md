@@ -57,7 +57,7 @@ Do a docker pull for latest MySQL Version and initialise the MySQL DB from the S
 - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
 - Copy the SQL script into the docker container. Type `docker cp Simple_Expenditure_App_SQL_Schema.sql <ContainerID>:/`
 - Login to the container and execute the script. Type `docker exec -it <ContainerID> bash`
-- Type `mysql -u root -p < Simple_Expenditure_App_SQL_Schema.sql`
+- Type `mysql -u root -p < /Simple_Expenditure_App_SQL_Schema.sql`
 - Enter Password when prompt. ***Password is the SQL password set during MySQL Image creation.***
 - Type `exit` to exit bash shell.
                                                                 
