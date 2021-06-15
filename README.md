@@ -53,7 +53,7 @@ Database:
 ===
 Do a docker pull for latest MySQL Version and initialise the MySQL DB from the SQL script provided in the source code package.
 
-- From console/terminal, type `docker run -d --name=database1 --env="MYSQL_ROOT_PASSWORD=<root_password>" --env="MYSQL_DATABASE=SimpleDatabase" --env="MYSQL_USER=appdbuser" --env="MYSQL_PASSWORD=P@ssw0rd" mysql:latest` to pull the MySQL latest image from docker hub.
+- From console/terminal, type `docker run -d --name=database1 --env="MYSQL_ROOT_PASSWORD=<root_password>" --env="MYSQL_DATABASE=SimpleDatabase" mysql:latest` to pull the MySQL latest image from docker hub.
 - Verify the container is running by typing `docker ps`, you should see the process running with the corresponding *CONTAINER ID*
 - Copy the SQL script into the docker container. Type `docker cp Simple_Expenditure_App_SQL_Schema.sql <ContainerID>:/`
 - Login to the container and execute the script. Type `docker exec -it <ContainerID> bash`
