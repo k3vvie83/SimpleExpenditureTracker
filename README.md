@@ -61,7 +61,7 @@ Do a docker pull for latest MySQL Version and initialise the MySQL DB from the S
 - Enter Password when prompt. ***Password is the SQL password set during MySQL Image creation.***
 - Type `exit` to exit bash shell.
                                                                 
-To run the application in Docker):
+To run the application in Docker:
 ====
 To run the application in docker, follow the below steps
 
