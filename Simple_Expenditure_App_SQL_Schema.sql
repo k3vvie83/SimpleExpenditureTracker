@@ -19,7 +19,6 @@
 -- Table structure for table `Expenditure`
 --
 
-CREATE DATABASE SimpleDatabase;
 
 USE SimpleDatabase;
 
