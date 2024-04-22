@@ -1,55 +1,31 @@
-name: Development
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-on:
-  pull_request:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - reopened
-  workflow_call:
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+RUN apt-get update -yq \
+    && apt-get install curl gnupg -yq \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+    && apt-get install nodejs -yq \
+	&& npm install axios crypto-js js-sha256
+WORKDIR /app
+EXPOSE 80
 
-jobs:
-  test:
-    name: Test application
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: "☁️ checkout repository"
-        uses: actions/checkout@v2
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+RUN apt-get update -yq \
+    && apt-get install curl gnupg -yq \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+    && apt-get install nodejs -yq \
+	&& npm install axios crypto-js js-sha256
+WORKDIR /src
+COPY ["SimpleExpenditureTracker.csproj", "."]
+RUN dotnet restore "./SimpleExpenditureTracker.csproj"
+COPY . .
+WORKDIR "/src/."
+RUN dotnet build "SimpleExpenditureTracker.csproj" -c Release -o /app/build
 
-      - name: "🔧 setup node"
-        uses: actions/setup-node@v2.1.5
-        with:
-          node-version: 16
+FROM build AS publish
+RUN dotnet publish "SimpleExpenditureTracker.csproj" -c Release -o /app/publish
 
-      - name: "🔧 install npm@latest"
-        run: npm i -g npm@latest
-
-      - name: "📦 install dependencies"
-        uses: bahmutov/npm-install@v1
-
-      - name: "🔍 run tests"
-        run: npm run test --if-present
-
-  lint:
-    name: Code standards
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: "☁️ checkout repository"
-        uses: actions/checkout@v2
-
-      - name: "🔧 setup node"
-        uses: actions/setup-node@v2.1.5
-        with:
-          node-version: 16
-
-      - name: "🔧 install npm@latest"
-        run: npm i -g npm@latest
-
-      - name: "📦 install dependencies"
-        uses: bahmutov/npm-install@v1
-
-      - name: "🔍 lint code"
-        run: npm run lint --if-present
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "SimpleExpenditureTracker.dll"]
